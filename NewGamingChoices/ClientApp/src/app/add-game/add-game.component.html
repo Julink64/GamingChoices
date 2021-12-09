@@ -1,0 +1,74 @@
+<div style="margin-left: 4px">
+  <div class="container">
+    <h1>Ajouter un nouveau jeu</h1>
+    <form>
+      <div class="form-group">
+        <label for="name">Nom* :</label>
+        <input [(ngModel)]="submittedGame.Name" name="name" type="text" class="form-control" id="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description :</label>
+        <textarea [(ngModel)]="submittedGame.Description" name="description" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="minplayers">Nombre de joueurs minimum* :</label>
+        <input [(ngModel)]="submittedGame.MinPlayers" name="minplayers" type="number" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="maxplayers">Nombre de joueurs maximum :</label>
+        <input [(ngModel)]="submittedGame.MaxPlayers" name="maxplayers" type="number" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="genre">Genre :</label>
+        <select [(ngModel)]="submittedGame.Genre" name="genre" class="form-control" id="genre" required>
+          <option *ngFor="let gen of genres" [value]="gen">{{gen}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Prix :</label>
+        <input [(ngModel)]="submittedGame.Price" name="price" type="number" class="form-control"> €
+      </div>
+
+      <div class="form-group">
+        <label for="platform">Plateformes :</label>
+        <div *ngFor="let pla of platforms">
+        <input [(ngModel)]="submittedGame.Platform" name="platform" type="radio" [value]="pla" /> {{pla}}
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="submittedGame.Platform == 'PC'">
+        <label for="minpower">Puissance minimale requise :</label>
+        <select [(ngModel)]="submittedGame.MinRequiredPower" name="minpower" class="form-control">
+          <option [value]="1">Rudimentaire</option>
+          <option [value]="2">Peu performant</option>
+          <option [value]="3">Standard</option>
+          <option [value]="4">Assez performant</option>
+          <option [value]="5">Excellent</option>
+          </select>
+      </div>
+
+      <div class="form-group" *ngIf="submittedGame.Platform == 'PC'">
+        <label for="isonmac">Sur Mac ? :</label>
+        <input [(ngModel)]="submittedGame.IsOnMac" name="isonmac" type="checkbox" class="form-control" >
+      </div>
+
+      <div class="form-group">
+        <label for="disksize">Taille sur le disque :</label>
+        <input [(ngModel)]="submittedGame.Size" name="disksize" type="number" class="form-control" > Mo
+      </div>
+
+      <!-- <div class="form-group">
+        <label for="steamid">ID Steam :</label>
+        <input [(ngModel)]="submittedGame.SteamAppId" name="steamid" type="text" class="form-control">
+      </div> -->
+
+      <button (click)="onSubmitGame()" type="submit" class="btn btn-success">Submit</button>
+
+    </form>
+  </div>
+  </div>
