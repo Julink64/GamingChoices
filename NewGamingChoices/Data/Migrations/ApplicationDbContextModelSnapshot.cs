@@ -341,6 +341,9 @@ namespace NewGamingChoices.Data.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsCrossPlatform")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsOnMac")
                         .HasColumnType("bit");
 
@@ -356,12 +359,6 @@ namespace NewGamingChoices.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Platform")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("Size")
                         .HasColumnType("int");
 
@@ -376,6 +373,28 @@ namespace NewGamingChoices.Data.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Game");
+                });
+
+            modelBuilder.Entity("NewGamingChoices.Models.PlatformPrice", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("GameID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Platform")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameID");
+
+                    b.ToTable("PlatformPrice");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -436,9 +455,21 @@ namespace NewGamingChoices.Data.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
+            modelBuilder.Entity("NewGamingChoices.Models.PlatformPrice", b =>
+                {
+                    b.HasOne("NewGamingChoices.Models.Game", null)
+                        .WithMany("PlatformPrices")
+                        .HasForeignKey("GameID");
+                });
+
             modelBuilder.Entity("NewGamingChoices.Models.ApplicationUser", b =>
                 {
                     b.Navigation("PossessedGames");
+                });
+
+            modelBuilder.Entity("NewGamingChoices.Models.Game", b =>
+                {
+                    b.Navigation("PlatformPrices");
                 });
 #pragma warning restore 612, 618
         }

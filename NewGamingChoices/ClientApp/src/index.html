@@ -2,13 +2,304 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>NewGamingChoices</title>
     <base href="/" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+      <title>Projet Gaming Choices</title>
+
+      <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+
+      <!-- START: Styles -->
+
+      <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet" type="text/css">
+
+      <!-- Bootstrap -->
+      <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+
+      <!-- FontAwesome -->
+      <script defer src="assets/vendor/fontawesome-free/js/all.js"></script>
+      <script defer src="assets/vendor/fontawesome-free/js/v4-shims.js"></script>
+
+      <!-- IonIcons -->
+      <link rel="stylesheet" href="assets/vendor/ionicons/css/ionicons.min.css">
+
+      <!-- Flickity -->
+      <link rel="stylesheet" href="assets/vendor/flickity/dist/flickity.min.css">
+
+      <!-- Photoswipe -->
+      <link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/photoswipe.css">
+      <link rel="stylesheet" type="text/css" href="assets/vendor/photoswipe/dist/default-skin/default-skin.css">
+
+      <!-- Seiyria Bootstrap Slider -->
+      <link rel="stylesheet" href="assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css">
+
+      <!-- Summernote -->
+      <link rel="stylesheet" type="text/css" href="assets/vendor/summernote/dist/summernote-bs4.css">
+
+      <!-- GoodGames -->
+      <link rel="stylesheet" href="assets/css/goodgames.css">
+
+      <!-- Custom Styles -->
+      <link rel="stylesheet" href="assets/css/custom.css">
+
+      <!-- END: Styles -->
+
+      <!-- jQuery -->
+      <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+
   </head>
   <body>
+
+    <header>
+      <!-- <nav
+        class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
+      >
+        <div class="container">
+          <a class="navbar-brand" [routerLink]="['/']">NewGamingChoices</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target=".navbar-collapse"
+            aria-label="Toggle navigation"
+            [attr.aria-expanded]="isExpanded"
+            (click)="toggle()"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
+            [ngClass]="{ show: isExpanded }"
+          >
+            <ul class="navbar-nav flex-grow">
+              <li
+                class="nav-item"
+                [routerLinkActive]="['link-active']"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
+              </li>
+              <li class="nav-item" [routerLinkActive]="['link-active']">
+                <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
+                  >Fetch data</a
+                >
+              </li>
+            </ul>
+            <app-login-menu></app-login-menu>
+          </div>
+        </div>
+      </nav> -->
+
+
+
+
+
+
+      <div class="nk-contacts-top">
+        <div class="container">
+            <div class="nk-contacts-left">
+                <ul class="nk-social-links">
+                    <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
+                    <li><a class="nk-social-discord" href="#"><span class="fab fa-discord"></span></a></li>
+                    <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a></li>
+                    <li><a class="nk-social-steam" href="#"><span class="fab fa-steam"></span></a></li>
+                    <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a></li>
+                    <li><a class="nk-social-twitter" href="#" target="_blank"><span class="fab fa-twitter"></span></a></li>
+
+                </ul>
+            </div>
+            <div class="nk-contacts-right">
+                <ul class="nk-contacts-icons">
+
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#modalSearch">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#modalLogin">
+                            <span class="fa fa-user"></span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nk-navbar nk-navbar-top nk-navbar-sticky nk-navbar-autohide">
+      <div class="container">
+          <div class="nk-nav-table">
+
+              <a href="index.html" class="nk-nav-logo">
+                  <img src="assets/images/logo.png" alt="GamingChoices" width="199">
+              </a>
+
+              <ul class="nk-nav nk-nav-right d-none d-lg-table-cell" data-nav-mobile="#nk-nav-mobile">
+
+        <li class=" nk-drop-item">
+          <a href="gallery.html">
+              Jeux
+
+          </a><ul class="dropdown">
+
+            <li>
+                <a href="news.html">
+                    Gérer mes jeux
+
+                </a>
+            </li>
+            <li>
+                <a href="add-game">
+                    Ajouter un jeu
+
+                </a>
+                        </ul>
+      </li>
+      <li class=" nk-drop-item">
+          <a href="blog-list.html">
+              Amis
+
+          </a><ul class="dropdown">
+
+      <li>
+          <a href="news.html">
+              Ajouter un Ami
+
+          </a>
+      </li>
+      <li>
+          <a href="blog-grid.html">
+              Gérer ma liste d'amis
+
+          </a>
+                  </ul>
+      </li>
+
+      <li class=" nk-drop-item">
+          <a href="tournaments.html">
+              Sessions
+
+          </a><ul class="dropdown">
+
+      <li>
+          <a href="tournaments.html">
+              Lancer une Session
+          </a>
+      </li>
+      <li>
+          <a href="tournaments-teams.html">
+              Historique de mes Sessions
+
+          </a>
+      </li>
+                  </ul>
+      </li>
+      <li>
+        <a href="elements.html">
+            Profil
+
+        </a>
+
+    </li>
+      <!-- <li>
+          <a href="store.html">
+              Mes disponibilités
+
+          </a>
+      </li> -->
+              </ul>
+              <ul class="nk-nav nk-nav-right nk-nav-icons">
+
+                      <li class="single-icon d-lg-none">
+                          <a href="#" class="no-link-effect" data-nav-toggle="#nk-nav-mobile">
+                              <span class="nk-icon-burger">
+                                  <span class="nk-t-1"></span>
+                                  <span class="nk-t-2"></span>
+                                  <span class="nk-t-3"></span>
+                              </span>
+                          </a>
+                      </li>
+
+
+              </ul>
+          </div>
+      </div>
+    </nav>
+
+    </header>
+
     <app-root>Loading...</app-root>
+
+    <!-- START: Scripts -->
+
+<!-- Object Fit Polyfill -->
+<script src="assets/vendor/object-fit-images/dist/ofi.min.js"></script>
+
+<!-- GSAP -->
+<script src="assets/vendor/gsap/src/minified/TweenMax.min.js"></script>
+<script src="assets/vendor/gsap/src/minified/plugins/ScrollToPlugin.min.js"></script>
+
+<!-- Popper -->
+<script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Sticky Kit -->
+<script src="assets/vendor/sticky-kit/dist/sticky-kit.min.js"></script>
+
+<!-- Jarallax -->
+<script src="assets/vendor/jarallax/dist/jarallax.min.js"></script>
+<script src="assets/vendor/jarallax/dist/jarallax-video.min.js"></script>
+
+<!-- imagesLoaded -->
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+
+<!-- Flickity -->
+<script src="assets/vendor/flickity/dist/flickity.pkgd.min.js"></script>
+
+<!-- Photoswipe -->
+<script src="assets/vendor/photoswipe/dist/photoswipe.min.js"></script>
+<script src="assets/vendor/photoswipe/dist/photoswipe-ui-default.min.js"></script>
+
+<!-- Jquery Validation -->
+<script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<!-- Jquery Countdown + Moment -->
+<script src="assets/vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
+<script src="assets/vendor/moment/min/moment.min.js"></script>
+<script src="assets/vendor/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+
+<!-- Hammer.js -->
+<script src="assets/vendor/hammerjs/hammer.min.js"></script>
+
+<!-- NanoSroller -->
+<script src="assets/vendor/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
+
+<!-- SoundManager2 -->
+<script src="assets/vendor/soundmanager2/script/soundmanager2-nodebug-jsmin.js"></script>
+
+<!-- Seiyria Bootstrap Slider -->
+<script src="assets/vendor/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+
+<!-- Summernote -->
+<script src="assets/vendor/summernote/dist/summernote-bs4.min.js"></script>
+
+<!-- nK Share -->
+<script src="assets/plugins/nk-share/nk-share.js"></script>
+
+<!-- GoodGames -->
+<script src="assets/js/goodgames.min.js"></script>
+<script src="assets/js/goodgames-init.js"></script>
+<!-- END: Scripts -->
+
   </body>
 </html>

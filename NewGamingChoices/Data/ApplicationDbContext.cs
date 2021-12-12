@@ -20,5 +20,12 @@ namespace NewGamingChoices.Data
 
 
         public virtual DbSet<Game> Games { get; set; }
+
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+
+
+        //}
     }
 }

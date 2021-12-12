@@ -123,8 +123,7 @@ namespace NewGamingChoices.Services
                 convertedgame.MinPlayers = 2;
                 //convertedgame.MaxPlayers = TODO
                 //convertedgame.MinRequiredPower = steamgame.pc_requirement.minimum TODO
-                convertedgame.Platform = "PC";
-                convertedgame.Price = steamgame.is_free ? 0 : (steamgame.price_overview != null ? steamgame.price_overview.final / 100 : 0);
+                convertedgame.PlatformPrices.Add(new PlatformPrice { Platform = "PC", Price = steamgame.is_free ? 0 : (steamgame.price_overview != null ? steamgame.price_overview.final / 100 : 0) });
                 //convertedgame.Size = steamgame.pc_requirement.minimum TODO
                 convertedgame.SteamAppId = steamgame.steam_appid.ToString();
                 convertedgame.ThumbnailPath = steamgame.header_image;

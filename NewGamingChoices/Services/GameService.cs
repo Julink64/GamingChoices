@@ -18,11 +18,9 @@ namespace NewGamingChoices.Services
 
         public bool AddNewGame(Game game)
         {
-            // Définition de l'unicité d'un jeu :
-            // - Nom
-            // - Plateforme
+            // Le nom définit l'unicité d'un jeu : s'il est présent sur d'autres plateformes, il suffira d'éditer sa fiche existante
 
-            var existinggame = _db.Games.FirstOrDefault(g => g.Name.Replace(" ", string.Empty).ToUpper() == game.Name.Replace(" ", string.Empty).ToUpper() && g.Platform == game.Platform);
+            var existinggame = _db.Games.FirstOrDefault(g => g.Name.Replace(" ", string.Empty).ToUpper() == game.Name.Replace(" ", string.Empty).ToUpper());
             // TODO : Trouver une meilleure méthode de comparaison qui puisse être prise en compte par SQL
 
             if(existinggame != null)
@@ -37,7 +35,7 @@ namespace NewGamingChoices.Services
 
         public void UpdateGameSteamId(Game game)
         {
-            var existinggame = _db.Games.FirstOrDefault(g => g.Name.IsSimilarTo(game.Name) && g.Platform == game.Platform);
+            var existinggame = _db.Games.FirstOrDefault(g => g.Name.IsSimilarTo(game.Name));
 
             if (existinggame != null && string.IsNullOrEmpty(existinggame.SteamAppId))
             {

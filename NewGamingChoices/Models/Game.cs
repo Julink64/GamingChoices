@@ -21,16 +21,30 @@ namespace NewGamingChoices.Models
         public int? MaxPlayers { get; set; }
 
         public string SteamAppId { get; set; }
-        public decimal Price { get; set; }
+        public List<PlatformPrice> PlatformPrices { get; set; }
         public int MinRequiredPower { get; set; }
 
         public string Genre { get; set; }
-        public string Platform { get; set; }
         public int Size { get; set; }
 
         public bool IsOnMac { get; set; }
 
+        public bool IsCrossPlatform { get; set; }
+
         //public int ReviewStatus { get; set; }
 
+        public Game()
+        {
+            PlatformPrices = new List<PlatformPrice>();
+        }
+    }
+
+    public class PlatformPrice
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
+        public string Platform { get; set; }
+        public decimal Price { get; set; }
     }
 }
