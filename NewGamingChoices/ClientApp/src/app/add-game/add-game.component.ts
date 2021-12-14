@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-add-game',
@@ -10,8 +10,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddGameComponent implements OnInit {
 
   baseUrl: string;
-
-  gameForm: FormGroup;
 
   submittedGame = new Game();
 
@@ -27,7 +25,9 @@ export class AddGameComponent implements OnInit {
   selectedplatforms = new Array<boolean>(this.platforms.length);
   platformsprices = new Array<number>(this.platforms.length);
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private fb: FormBuilder) { this.baseUrl = baseUrl; }
+  submit: boolean;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { this.baseUrl = baseUrl; }
 
   ngOnInit() {
 
@@ -49,9 +49,13 @@ export class AddGameComponent implements OnInit {
     return this.selectedplatforms.some((a) => a);
   }
 
-  onSubmitGame() {
+  onSubmit(gameForm: NgForm) {
     console.log("submit game");
     console.log(this.submittedGame);
+
+    if(gameForm.valid && this.atleastoneplatformselected())
+    {
+      console.log('testvalid');
 
     // let headers = new HttpHeaders({
     //   'Content-Type': 'application/json',
@@ -60,6 +64,7 @@ export class AddGameComponent implements OnInit {
     // this.http.post(this.baseUrl + 'game/addnewgame', JSON.stringify(this.submittedGame), options).subscribe(result => {
 
     // }, error => console.error(error));
+    }
 
   }
 }

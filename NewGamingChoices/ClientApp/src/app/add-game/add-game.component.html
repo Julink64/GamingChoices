@@ -1,10 +1,21 @@
 <div style="margin-left: 4px; margin-top: 10px;">
   <div class="container">
     <h1>Ajouter un nouveau jeu</h1>
-    <form #gameForm="ngForm">
+
+<div class="nk-info-box text-danger" *ngIf="gameForm.submitted && (name.invalid || !atleastoneplatformselected())">
+  <div class="nk-info-box-icon">
+      <i class="ion-close-round"></i>
+  </div>
+  <h3>Erreur</h3>
+  <em *ngIf="name.invalid">Le nom du jeu est obligatoire.</em>
+  <em *ngIf="!atleastoneplatformselected()"><br />Au moins une plateforme doit être sélectionnée.</em>
+</div>
+
+
+    <form name="gameForm" #gameForm="ngForm" #formDir="ngForm">
       <div class="form-group">
         <label for="name">Nom* :</label>
-        <input class="form-control" [(ngModel)]="submittedGame.Name" name="name" type="text" class="form-control" id="name" required>
+        <input class="form-control" [(ngModel)]="submittedGame.Name" name="name" type="text" class="form-control" id="name" #name="ngModel" required>
       </div>
 
       <div class="form-group">
@@ -16,15 +27,13 @@
 
       <div class="form-group col-lg-4">
         <label for="genre">Genre :</label>
-        <select [(ngModel)]="submittedGame.Genre" name="genre" class="form-control" id="genre" required>
+        <select [(ngModel)]="submittedGame.Genre" name="genre" class="form-control" id="genre">
           <option class="form-control" *ngFor="let gen of genres" [value]="gen">{{gen}}</option>
         </select>
       </div>
 
       <div class="form-group col-lg-4">
         <label for="minplayers">Nombre de joueurs minimum :</label>
-        <!-- <input [(ngModel)]="submittedGame.MinPlayers" name="minplayers" type="text" class="form-control" required> -->
-
         <select [(ngModel)]="submittedGame.MinPlayers" name="minplayers" class="form-control" id="minplayers" required>
           <option class="form-control" *ngFor="let i of minplayersvalues" [value]="i">{{i}}</option>
           </select>
@@ -89,7 +98,7 @@
     </div>
 
     <div style="text-align: center;">
-      <button [disabled]="!gameForm.form.valid" (click)="onSubmitGame()" class="nk-btn nk-btn-rounded nk-btn-color-main-1">Envoyer</button>
+      <button (click)="onSubmit(gameForm)" class="nk-btn nk-btn-rounded nk-btn-color-main-1">Envoyer</button>
     </div>
 
     </form>
