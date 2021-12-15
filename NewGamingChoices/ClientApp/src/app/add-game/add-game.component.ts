@@ -49,6 +49,30 @@ export class AddGameComponent implements OnInit {
     return this.selectedplatforms.some((a) => a);
   }
 
+  atleastonepriceinvalid()
+  {
+    return this.platformsprices.some((a) => a && !this.ispricevalid(a));
+  }
+
+  ispricevalid(value: any)
+  {
+    value = value.replace(",", ".");
+
+    if(value.includes("-"))
+      return false;
+
+    return !isNaN(value);
+  }
+
+  isdisksizevalid(value: any)
+  {
+    if(value.includes("-") || value.includes("."))
+      return false;
+
+    return !isNaN(value);
+  }
+
+
   onSubmit(gameForm: NgForm) {
     console.log("submit game");
     console.log(this.submittedGame);

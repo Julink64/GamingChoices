@@ -2,20 +2,27 @@
   <div class="container">
     <h1>Ajouter un nouveau jeu</h1>
 
-<div class="nk-info-box text-danger" *ngIf="gameForm.submitted && (name.invalid || !atleastoneplatformselected())">
+<div class="nk-info-box text-danger" *ngIf="gameForm.submitted &&
+(name.invalid
+|| !atleastoneplatformselected()
+|| atleastonepriceinvalid()
+|| selectedplatforms[0] && submittedGame.Size && !isdisksizevalid(submittedGame.Size))">
   <div class="nk-info-box-icon">
       <i class="ion-close-round"></i>
   </div>
   <h3>Erreur</h3>
   <em *ngIf="name.invalid">Le nom du jeu est obligatoire.</em>
   <em *ngIf="!atleastoneplatformselected()"><br />Au moins une plateforme doit être sélectionnée.</em>
+  <em *ngIf="atleastonepriceinvalid()"><br />Un prix est invalide.</em>
+  <em *ngIf="selectedplatforms[0] && submittedGame.Size && !isdisksizevalid(submittedGame.Size)"><br />La taille du jeu sur PC est invalide.</em>
+
 </div>
 
 
     <form name="gameForm" #gameForm="ngForm" #formDir="ngForm">
       <div class="form-group">
         <label for="name">Nom* :</label>
-        <input class="form-control" [(ngModel)]="submittedGame.Name" name="name" type="text" class="form-control" id="name" #name="ngModel" required>
+        <input class="form-control" [ngClass]="{'nk-error' : gameForm.submitted && name.invalid}" [(ngModel)]="submittedGame.Name" name="name" type="text" id="name" #name="ngModel" required>
       </div>
 
       <div class="form-group">
@@ -74,7 +81,9 @@
         </div>
 
         <div class="form-group col-lg-2" >
-          <input placeholder="Prix sur {{pla}}" [(ngModel)]="platformsprices[index]" [hidden]="!selectedplatforms[index]" class="form-control" type="text" [name]="'price_' + index">
+          <input placeholder="Prix sur {{pla}}" [(ngModel)]="platformsprices[index]"
+          [hidden]="!selectedplatforms[index]" class="form-control" type="text"
+          [name]="'price_' + index" pattern="[0-9]*" [ngClass]="{'nk-error' : platformsprices[index] && !ispricevalid(platformsprices[index]) }">
         </div>
 
         <div *ngIf="selectedplatforms[0] && index == 0" class="form-group col-lg-2" >
@@ -92,7 +101,8 @@
         </div>
 
         <div *ngIf="selectedplatforms[0] && index == 0" class="form-group col-lg-2" >
-          <input placeholder="En Mo" [(ngModel)]="submittedGame.Size" name="disksize" type="text" class="form-control" >
+          <input placeholder="En Mo" [(ngModel)]="submittedGame.Size" [name]="'disksize_' + index" type="text"
+          class="form-control" pattern="[0-9]*" [ngClass]="{'nk-error' : submittedGame.Size && !isdisksizevalid(submittedGame.Size) }">
         </div>
 
     </div>
