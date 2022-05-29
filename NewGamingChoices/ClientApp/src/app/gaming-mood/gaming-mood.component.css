@@ -1,0 +1,112 @@
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.switches {
+  list-style: none;
+}
+
+.customcheckbox[type="checkbox"] {
+  position: absolute;
+  left: -9999px;
+}
+
+.switches label
+{
+  cursor: pointer;
+  display: block;
+  color: var(--gray);
+}
+
+.switches .customcheckboxcontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switches span:first-child {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  border-radius: 15px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+  background: var(--gray);
+  transition: all 0.3s;
+  margin: 30px;
+}
+
+.switches span:first-child::before,
+.switches span:first-child::after {
+  content: "";
+  position: absolute;
+}
+
+.switches span:first-child::before {
+  left: 1px;
+  top: 1px;
+  width: 24px;
+  height: 24px;
+  background: var(--white);
+  border-radius: 50%;
+  z-index: 1;
+  transition: transform 0.3s;
+}
+
+.switches span:first-child::after {
+  top: 50%;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%);
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/uncheck-switcher.svg);
+  background-size: 12px 12px;
+}
+
+.switches [type="checkbox"]:checked + .customcheckboxcontainer span:first-child {
+  background: #6d14b9;
+}
+
+.switches [type="checkbox"]:checked + .customcheckboxcontainer span:first-child::before {
+  transform: translateX(24px);
+}
+
+.switches [type="checkbox"]:checked + .customcheckboxcontainer span:first-child::after {
+  width: 14px;
+  height: 14px;
+  /*right: auto;*/
+  left: 8px;
+  background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/checkmark-switcher.svg);
+  background-size: 14px 14px;
+}
+
+.switches .customcheckboxcontainer h3
+{
+  color:var(--gray);
+}
+
+.switches [type="checkbox"]:checked + .customcheckboxcontainer h3
+{
+  color:var(--white);
+}
+
+
+.icon-delete
+{
+  display: flex;
+  justify-content: right;
+  padding-left: 20px;
+  padding-right: 10px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.isdownloadedyet
+{
+  margin-top: 5px;
+}
+
+.isdownloadedyet label
+{
+  color: #6d14b9;
+}

@@ -41,6 +41,28 @@ namespace NewGamingChoices.Controllers
 
         }
 
+        [Produces("application/json")]
+        [HttpGet("searchgame")]
+        public IActionResult SearchGame(string term)
+        {
+            try
+            {
+                var names = _db.Games.Where(p => p.Name.Contains(term)).Select(p => p.Name).ToList();
+                return Ok(names);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("[action]")]
+        public List<GameConsole> getConsolesList()
+        {
+            GameService gameService = new GameService(_db);
+            return gameService.GetConsolesList();
+        }
+
 
     }
 }

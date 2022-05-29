@@ -1,0 +1,95 @@
+<div style="margin-left: 4px; margin-top: 10px;">
+  <div class="container">
+    <h1 class="nk-decorated-h-3"><span>Mes paramètres</span></h1>
+
+  <form name="profileForm" #profileForm="ngForm" #formDir="ngForm">
+
+    <div class="row justify-content-around">
+
+    <div class="form-group col-lg-4">
+      <label for="name">Email* :</label>
+      <input class="form-control" [ngClass]="{'nk-error' : profileForm.submitted && name.invalid}" [(ngModel)]="user.email" name="name" type="text" id="name" #name="ngModel" required>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="nk-feature-1">
+          <div class="nk-feature-icon">
+            <span class="ion-steam"></span>
+          </div>
+          <div class="nk-feature-cont">
+              <h3 class="nk-feature-title"><a href="#">Lier compte</a></h3>
+              <h3 class="nk-feature-title text-main-1"><a href="#">Steam</a></h3>
+          </div>
+      </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="nk-feature-1">
+        <div class="nk-feature-icon">
+            <img src="assets/images/icon-mouse.png" alt="">
+        </div>
+        <div class="nk-feature-cont">
+            <h3 class="nk-feature-title"><a href="#">Lier compte</a></h3>
+            <h3 class="nk-feature-title text-main-1"><a href="#">Epic</a></h3>
+        </div>
+    </div>
+</div>
+
+  </div>
+
+    <div class="form-group">
+      <label for="computer">Equipement :</label>
+      <select [(ngModel)]="user.computer" name="computer" class="form-control">
+        <option value="PC">PC</option>
+        <option value="Mac">Mac uniquement</option>
+        <option value="None">Aucun ordinateur</option>
+        </select>
+    </div>
+
+    <div [hidden]="user.computer == 'None'" class="form-group" >
+      <label for="availableDiscSpace">Espace disponible :</label>
+      <input name="availableDiscSpace" placeholder="en Go" [(ngModel)]="user.availableDiscSpace"
+       class="form-control" type="text"
+      pattern="[0-9]*" >
+    </div>
+
+    <div [hidden]="user.computer == 'None'" class="form-group">
+      <label for="computerPower">Puissance du {{user.computer}} :</label>
+      <select [(ngModel)]="user.computerPower" name="computerPower" class="form-control" id="computerPower">
+        <option class="form-control" *ngFor="let cpv of computerPowerValues; let index = index;" [value]="index">{{cpv}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+      <label for="internetNetworkQuality">Qualité de la connexion internet :</label>
+      <select [(ngModel)]="user.internetNetworkQuality" name="internetNetworkQuality" class="form-control" id="internetNetworkQuality">
+        <option class="form-control" *ngFor="let inq of internetNetworkQualityValues; let index2 = index;" [value]="index2">{{inq}}</option>
+        </select>
+    </div>
+
+
+      <label for="consoles">Consoles possédées :</label>
+
+      <div class="row">
+      <div class="form-group col-lg-4" *ngFor="let con of consoles ; let ind = index">
+
+        <input [(ngModel)]="selectedconsoles[ind]" type="checkbox" [id]="con.id" [name]="'console_' + ind">&nbsp;&nbsp;
+        <label [for]="con.id">{{con.name}} </label>
+
+      </div>
+      </div>
+
+      <div class="nk-gap-1"></div>
+  <div style="text-align: center;">
+    <button (click)="onSubmit(profileForm)" class="nk-btn nk-btn-rounded nk-btn-color-main-1">Mettre à jour</button>
+  </div>
+
+  </form>
+
+</div>
+
+</div>
+
+
+
+  <img class="nk-page-background-top" src="assets/images/bg-top-2.png" alt="">

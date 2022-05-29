@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewGamingChoices.Data;
 
 namespace NewGamingChoices.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220520140307_UsersAndConsoles")]
+    partial class UsersAndConsoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -362,6 +364,9 @@ namespace NewGamingChoices.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -397,6 +402,8 @@ namespace NewGamingChoices.Data.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.ToTable("Game");
                 });
 
@@ -407,47 +414,17 @@ namespace NewGamingChoices.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
-                    b.ToTable("Consoles");
-                });
-
-            modelBuilder.Entity("NewGamingChoices.Models.GamingMood", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("ConsoleID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("GameID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsGameDownloadedYet")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsNeverOkToPlay")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOkToPlay")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("ConsoleID");
-
-                    b.HasIndex("GameID");
-
-                    b.ToTable("GamingMoods");
+                    b.ToTable("Consoles");
                 });
 
             modelBuilder.Entity("NewGamingChoices.Models.PlatformPrice", b =>
@@ -538,23 +515,18 @@ namespace NewGamingChoices.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("NewGamingChoices.Models.GamingMood", b =>
+            modelBuilder.Entity("NewGamingChoices.Models.Game", b =>
                 {
                     b.HasOne("NewGamingChoices.Models.ApplicationUser", null)
-                        .WithMany("GamingMoods")
+                        .WithMany("PossessedGames")
                         .HasForeignKey("ApplicationUserId");
+                });
 
-                    b.HasOne("NewGamingChoices.Models.GameConsole", "Console")
-                        .WithMany()
-                        .HasForeignKey("ConsoleID");
-
-                    b.HasOne("NewGamingChoices.Models.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameID");
-
-                    b.Navigation("Console");
-
-                    b.Navigation("Game");
+            modelBuilder.Entity("NewGamingChoices.Models.GameConsole", b =>
+                {
+                    b.HasOne("NewGamingChoices.Models.ApplicationUser", null)
+                        .WithMany("ConsoleFullList")
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("NewGamingChoices.Models.PlatformPrice", b =>
@@ -566,7 +538,9 @@ namespace NewGamingChoices.Data.Migrations
 
             modelBuilder.Entity("NewGamingChoices.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("GamingMoods");
+                    b.Navigation("ConsoleFullList");
+
+                    b.Navigation("PossessedGames");
                 });
 
             modelBuilder.Entity("NewGamingChoices.Models.Game", b =>

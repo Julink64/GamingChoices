@@ -12,6 +12,8 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { AddGameComponent } from './add-game/add-game.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { GamingMoodComponent } from './gaming-mood/gaming-mood.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { AddGameComponent } from './add-game/add-game.component';
     NavMenuComponent,
     HomeComponent,
     FetchDataComponent,
-    AddGameComponent
+    AddGameComponent,
+    UserProfileComponent,
+    GamingMoodComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,8 +34,11 @@ import { AddGameComponent } from './add-game/add-game.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-      // { path: 'add-game', component: AddGameComponent, canActivate: [AuthorizeGuard] },
-      { path: 'add-game', component: AddGameComponent },
+      { path: 'add-game', component: AddGameComponent, canActivate: [AuthorizeGuard] },
+      // { path: 'profile', component: UserProfileComponent, canActivate: [AuthorizeGuard] },
+      { path: 'profile', component: UserProfileComponent },
+      // { path: 'gaming-mood', component: GamingMoodComponent, canActivate: [AuthorizeGuard] },
+      { path: 'gaming-mood', component: GamingMoodComponent },
     ])
   ],
   providers: [

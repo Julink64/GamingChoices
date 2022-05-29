@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { GameService } from '../services/game.service';
+import { Game } from './game';
 
 @Component({
   selector: 'app-add-game',
@@ -11,13 +13,13 @@ export class AddGameComponent implements OnInit {
 
   baseUrl: string;
 
-  submittedGame = new Game();
+  submittedGame: Game;
 
   genres = ['Jeux de Course', 'Jeux de Combat',
     'FPS', 'Jeux d\'Aventure'];
 
-  platforms = ['PC', 'Nintendo Switch',
-    'Xbox Series X', 'Xbox One', 'PlayStation 4', 'Playstation 5'];
+  platforms = [];
+  consoles = [];
 
   minplayersvalues = [];
   maxplayersvalues = [];
@@ -27,9 +29,16 @@ export class AddGameComponent implements OnInit {
 
   submit: boolean;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { this.baseUrl = baseUrl; }
+  constructor(private gameService:GameService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { this.baseUrl = baseUrl; }
 
   ngOnInit() {
+    this.gameService.GetConsolesList().subscribe(
+      result =>  { this.consoles = result.map(o => o.name);
+                   this.platforms = ['PC'].concat(this.consoles);
+                  },
+      error => {console.error(error);});
+
+
 
     for(let i = 0; i < 19; i++)
     {
@@ -92,25 +101,4 @@ export class AddGameComponent implements OnInit {
 
   }
 }
-
-export class Game {
-   ID: number;
-   Name: string;
-   Description: string;
-   ThumbnailPath: string;
-   MinPlayers: number;
-   MaxPlayers: number;
-   SteamAppId: string;
-   PlatformPrices: PlatformPrice[];
-   MinRequiredPower: number;
-   Genre: string;
-   Size: number;
-   IsOnMac: boolean;
-   IsCrossPlatform: boolean;
-}
-export class PlatformPrice {
-  public Platform: string;
-  public Price: number;
-}
-
 

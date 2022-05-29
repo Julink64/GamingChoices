@@ -20,11 +20,15 @@ namespace NewGamingChoices.Data
 
 
         public virtual DbSet<Game> Games { get; set; }
+        public virtual DbSet<GamingMood> GamingMoods { get; set; }
+        public virtual DbSet<GameConsole> Consoles { get; set; }
+
+
 
         //protected override void OnModelCreating(ModelBuilder builder)
         //{
-        //    base.OnModelCreating(builder);
-
+        //    builder.Entity<ApplicationUser>()
+        //    .HasMany(p => p.Consoles);
 
         //}
     }

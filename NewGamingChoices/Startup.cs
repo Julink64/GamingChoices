@@ -41,7 +41,10 @@ namespace NewGamingChoices
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+            .AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddRazorPages();
 
             //string steamapîkey = "EEB952DBEB0A76C1D52A09E47E862A53";

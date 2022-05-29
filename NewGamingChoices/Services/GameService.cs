@@ -42,5 +42,10 @@ namespace NewGamingChoices.Services
                 existinggame.SteamAppId = game.SteamAppId;
             }
         }
+
+        public List<GameConsole> GetConsolesList()
+        {
+            return _db.Consoles.OrderByDescending(x => x.ID).ToList();
+        }
     }
 }

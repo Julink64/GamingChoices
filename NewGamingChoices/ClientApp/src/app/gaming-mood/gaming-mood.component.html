@@ -1,0 +1,84 @@
+<div style="margin-left: 4px; margin-top: 10px;">
+  <div class="container">
+    <h1 class="nk-decorated-h-3"><span>Gaming Mood</span></h1>
+
+    <p class="text-white">&Agrave; quels jeux ai-je envie de jouer aujourd'hui ?</p>
+
+
+
+    <form action="#" method="post" class="nk-form nk-form-style-1">
+      <div class="input-group">
+          <input type="text" name="s" class="form-control" placeholder="Ajouter un jeu">
+          <button class="nk-btn nk-btn-color-main-1">
+              <span class="fa fa-search"></span>
+          </button>
+      </div>
+    </form>
+
+
+
+    <div class="switches row">
+
+      <li *ngFor="let gm of gamingmoods; let index = index;" class="col-lg-6" style="margin-top: 20px;">
+        <input class="customcheckbox" type="checkbox" id="{{index}}">
+        <div class="customcheckboxcontainer">
+        <div class="nk-feature-1">
+          <label for="{{index}}">
+          <div class="nk-feature-icon">
+
+            <span></span>
+          </div>
+        </label>
+
+          <div class="nk-feature-cont" style="width: 100%;">
+            <label for="{{index}}"><h3 class="nk-feature-title">{{gm}}</h3></label>
+            <div class="isdownloadedyet">
+              <input type="checkbox" id="isdownloaded-{{index}}">&nbsp;&nbsp;<label style="display: inline;" for="isdownloaded-{{index}}">Prêt à jouer</label>
+            </div>
+          </div>
+
+          <div data-toggle="modal" data-target="#deleteModal" class="ion-trash-b icon-delete">
+          </div>
+        </div>
+      </div>
+      </li>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Modale suppression -->
+<div class="nk-modal modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-body">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span class="ion-android-close"></span>
+              </button>
+
+              <h4 class="mb-0"><span class="text-main-1">Supprimer</span> un jeu</h4>
+
+              <div class="nk-gap-1"></div>
+              <form action="#" class="nk-form text-white">
+                          Es-tu sûr de vouloir supprimer <span style="font-weight: bold;" class="text-main-1">Rocket League</span> de ta collection ?
+
+
+                  <div class="nk-gap-1"></div>
+                  <div class="row vertical-gap">
+                      <div class="col-md-6">
+                          <a href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-block"><span class="icon ion-trash-b"></span> Supprimer</a>
+                      </div>
+                      <div class="col-md-6">
+                        <a href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-block">Annuler</a>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Fin modale suppression -->
+
+
+<img class="nk-page-background-top" src="assets/images/bg-top.png" alt="">
