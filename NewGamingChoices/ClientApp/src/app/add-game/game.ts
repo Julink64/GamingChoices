@@ -1,19 +1,19 @@
 import { GameConsole } from "../models/console";
 
 export class Game {
-  ID: number;
-  Name: string;
-  Description: string;
-  ThumbnailPath: string;
-  MinPlayers: number;
-  MaxPlayers: number;
-  SteamAppId: string;
-  PlatformPrices: PlatformPrice[];
-  MinRequiredPower: number;
-  Genre: string;
-  Size: number;
-  IsOnMac: boolean;
-  IsCrossPlatform: boolean;
+  iD: number;
+  name: string;
+  description: string;
+  thumbnailPath: string;
+  minPlayers: number;
+  maxPlayers: number;
+  steamAppId: string;
+  platformPrices: PlatformPrice[];
+  minRequiredPower: number;
+  genre: string;
+  size: number;
+  isOnMac: boolean;
+  isCrossPlatform: boolean;
 }
 
 export class GamingMood {
@@ -22,9 +22,10 @@ export class GamingMood {
   isOkToPlay: boolean;
   isNeverOkToPlay: boolean;
   isGameDownloadedYet: boolean;
+  isFavAndNotBlacklisted: boolean | null;
 }
 
 export class PlatformPrice {
-  Platform: string;
-  Price: number;
+  platform: string;
+  price: number;
 }

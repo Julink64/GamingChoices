@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NewGamingChoices.Data;
 using NewGamingChoices.Models;
@@ -41,6 +42,23 @@ namespace NewGamingChoices.Controllers
 
         }
 
+        [HttpPost("[action]")]
+        public IActionResult addOrUpdateGm([FromBody] GamingMood gm)
+        {
+            GameService gameService = new GameService(_db);
+            CustomUserService userService = new CustomUserService(_db);
+            ApplicationUser currentuser = userService.GetUser(this.User.Identity.Name);
+            if (gameService.AddOrUpdateGamingMood(gm, currentuser))
+            {
+                return Ok();
+            }
+            else
+            {
+                return Ok("Une erreur est survenue lors de l'ajout ou de la mise à jour du Gaming Mood.");
+            }
+
+        }
+
         [Produces("application/json")]
         [HttpGet("searchgame")]
         public IActionResult SearchGame(string term)
@@ -49,6 +67,23 @@ namespace NewGamingChoices.Controllers
             {
                 var names = _db.Games.Where(p => p.Name.Contains(term)).Select(p => p.Name).ToList();
                 return Ok(names);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet("gamedetails")]
+        public IActionResult GetGameDetails(string gameid)
+        {
+            try
+            {
+                int gameidint = int.Parse(gameid);
+
+                var game = _db.Games.Include(g => g.PlatformPrices).FirstOrDefault(p => p.ID == gameidint);
+                return Ok(game);
             }
             catch
             {

@@ -6,7 +6,7 @@
 (name.invalid
 || !atleastoneplatformselected()
 || atleastonepriceinvalid()
-|| selectedplatforms[0] && submittedGame.Size && !isdisksizevalid(submittedGame.Size))">
+|| selectedplatforms[0] && submittedGame.size && !isdisksizevalid(submittedGame.size))">
   <div class="nk-info-box-icon">
       <i class="ion-close-round"></i>
   </div>
@@ -14,44 +14,57 @@
   <em *ngIf="name.invalid">Le nom du jeu est obligatoire.</em>
   <em *ngIf="!atleastoneplatformselected()"><br />Au moins une plateforme doit être sélectionnée.</em>
   <em *ngIf="atleastonepriceinvalid()"><br />Un prix est invalide.</em>
-  <em *ngIf="selectedplatforms[0] && submittedGame.Size && !isdisksizevalid(submittedGame.Size)"><br />La taille du jeu sur PC est invalide.</em>
+  <em *ngIf="selectedplatforms[0] && submittedGame.size && !isdisksizevalid(submittedGame.size)"><br />La taille du jeu sur PC est invalide.</em>
 
 </div>
 
 
     <form name="gameForm" #gameForm="ngForm" #formDir="ngForm">
-      <div class="form-group">
-        <label for="name">Nom* :</label>
-        <input class="form-control" [ngClass]="{'nk-error' : gameForm.submitted && name.invalid}" [(ngModel)]="submittedGame.Name" name="name" type="text" id="name" #name="ngModel" required>
+      <div class="row justify-content-around">
+        <div class="form-group col-lg-6">
+          <label for="name">Nom* :</label>
+          <input class="form-control" [ngClass]="{'nk-error' : gameForm.submitted && name.invalid}" [(ngModel)]="submittedGame.name" name="name" type="text" id="name" #name="ngModel" required>
+        </div>
+        <div class="form-group col-lg-6">
+          <label for="name">URL de l'illustration :</label>
+          <input class="form-control" [ngClass]="{'nk-error' : gameForm.submitted && thumbnailPath.invalid}" [(ngModel)]="submittedGame.thumbnailPath" name="thumbnailPath" type="text" id="thumbnailPath" #thumbnailPath="ngModel">
+        </div>
       </div>
 
       <div class="form-group">
         <label for="description">Description :</label>
-        <textarea [(ngModel)]="submittedGame.Description" name="description" class="form-control"></textarea>
+        <textarea [(ngModel)]="submittedGame.description" name="description" class="form-control"></textarea>
       </div>
 
       <div class="row justify-content-around">
 
-      <div class="form-group col-lg-4">
+      <div class="form-group col-lg-3">
         <label for="genre">Genre :</label>
-        <select [(ngModel)]="submittedGame.Genre" name="genre" class="form-control" id="genre">
+        <select [(ngModel)]="submittedGame.genre" name="genre" class="form-control" id="genre">
           <option class="form-control" *ngFor="let gen of genres" [value]="gen">{{gen}}</option>
         </select>
       </div>
 
-      <div class="form-group col-lg-4">
+      <div class="form-group col-lg-3">
         <label for="minplayers">Nombre de joueurs minimum :</label>
-        <select [(ngModel)]="submittedGame.MinPlayers" name="minplayers" class="form-control" id="minplayers" required>
+        <select [(ngModel)]="submittedGame.minPlayers" name="minplayers" class="form-control" id="minplayers" required>
           <option class="form-control" *ngFor="let i of minplayersvalues" [value]="i">{{i}}</option>
           </select>
       </div>
 
-      <div class="form-group col-lg-4">
+      <div class="form-group col-lg-3">
         <label for="maxplayers">Nombre de joueurs maximum :</label>
-        <select [(ngModel)]="submittedGame.MaxPlayers" name="maxplayers" class="form-control" id="maxplayers">
+        <select [(ngModel)]="submittedGame.maxPlayers" name="maxplayers" class="form-control" id="maxplayers">
           <option class="form-control" *ngFor="let i of maxplayersvalues" [value]="i">{{i}}</option>
           <option class="form-control" [value]="100">Infini</option>
         </select>
+      </div>
+
+      <div class="form-group col-lg-3">
+        <label for="iscrossplatform">Cross-platform ?</label>
+        <div style=" padding-top: 5px;">
+          <input [disabled]="!isMoreThanOnePlatformSelected()" [(ngModel)]="submittedGame.isCrossPlatform" name="iscrossplatform" id="iscrossplatform" type="checkbox">&nbsp;&nbsp;<label for="iscrossplatform">Oui</label>
+        </div>
       </div>
 
     </div>
@@ -83,26 +96,22 @@
         <div class="form-group col-lg-2" >
           <input placeholder="Prix sur {{pla}}" [(ngModel)]="platformsprices[index]"
           [hidden]="!selectedplatforms[index]" class="form-control" type="text"
-          [name]="'price_' + index" pattern="[0-9]*" [ngClass]="{'nk-error' : platformsprices[index] && !ispricevalid(platformsprices[index]) }">
+          [name]="'price_' + index" pattern="[0-9\.]*" [ngClass]="{'nk-error' : platformsprices[index] && !ispricevalid(platformsprices[index]) }">
         </div>
 
         <div *ngIf="selectedplatforms[0] && index == 0" class="form-group col-lg-2" >
-          <select [(ngModel)]="submittedGame.MinRequiredPower" name="minpower" class="form-control">
-            <option [value]="1">Rudimentaire</option>
-            <option [value]="2">Peu performant</option>
-            <option [value]="3">Standard</option>
-            <option [value]="4">Assez performant</option>
-            <option [value]="5">Excellent</option>
+          <select [(ngModel)]="submittedGame.minRequiredPower" name="minpower" class="form-control">
+            <option *ngFor="let rpi of [1,2,3,4,5]" [value]="rpi">{{rpi | requiredpowertext}}</option>
             </select>
         </div>
 
         <div *ngIf="selectedplatforms[0] && index == 0" class="form-group col-lg-2" style="text-align: center; padding-top: 5px;" >
-          <input [(ngModel)]="submittedGame.IsOnMac" name="isonmac" id="isonmac" type="checkbox">&nbsp;&nbsp;<label for="isonmac">Oui</label>
+          <input [(ngModel)]="submittedGame.isOnMac" name="isonmac" id="isonmac" type="checkbox">&nbsp;&nbsp;<label for="isonmac">Oui</label>
         </div>
 
         <div *ngIf="selectedplatforms[0] && index == 0" class="form-group col-lg-2" >
-          <input placeholder="En Mo" [(ngModel)]="submittedGame.Size" [name]="'disksize_' + index" type="text"
-          class="form-control" pattern="[0-9]*" [ngClass]="{'nk-error' : submittedGame.Size && !isdisksizevalid(submittedGame.Size) }">
+          <input placeholder="En Mo" [(ngModel)]="submittedGame.size" [name]="'disksize_' + index" type="text"
+          class="form-control" pattern="[0-9]*" [ngClass]="{'nk-error' : submittedGame.size && !isdisksizevalid(submittedGame.size) }">
         </div>
 
     </div>

@@ -8,7 +8,14 @@
 
     <form action="#" method="post" class="nk-form nk-form-style-1">
       <div class="input-group">
-          <input type="text" name="s" class="form-control" placeholder="Ajouter un jeu">
+          <input (input)="updateGameSugg()" type="text" name="gamesearchbar" [(ngModel)]="gamesearchbarvalue" class="form-control" placeholder="Ajouter un jeu à ma collection..." [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+
+            <mat-option *ngFor="let gamesuggestion of gamesuggestions" [value]="gamesuggestion">
+              {{gamesuggestion}}
+            </mat-option>
+          </mat-autocomplete>
+
           <button class="nk-btn nk-btn-color-main-1">
               <span class="fa fa-search"></span>
           </button>
@@ -20,24 +27,31 @@
     <div class="switches row">
 
       <li *ngFor="let gm of gamingmoods; let index = index;" class="col-lg-6" style="margin-top: 20px;">
+
         <input class="customcheckbox" type="checkbox" id="{{index}}">
         <div class="customcheckboxcontainer">
+
         <div class="nk-feature-1">
+
           <label for="{{index}}">
-          <div class="nk-feature-icon">
+          <div class="nk-feature-icon" style="border: 0;">
 
             <span></span>
           </div>
+
         </label>
+        <div title="Favoris" class="ion-android-star-outline icon-favorite"></div>
+
 
           <div class="nk-feature-cont" style="width: 100%;">
             <label for="{{index}}"><h3 class="nk-feature-title">{{gm}}</h3></label>
             <div class="isdownloadedyet">
-              <input type="checkbox" id="isdownloaded-{{index}}">&nbsp;&nbsp;<label style="display: inline;" for="isdownloaded-{{index}}">Prêt à jouer</label>
+              <input type="checkbox" id="isdownloaded-{{index}}">&nbsp;&nbsp;<label title="Jouer à ce jeu ne nécessite pas de temps de préparation (téléchargement, CD à trouver, ...)" style="display: inline;" for="isdownloaded-{{index}}">Prêt à jouer</label>
             </div>
           </div>
-
-          <div data-toggle="modal" data-target="#deleteModal" class="ion-trash-b icon-delete">
+          <div style="border-left : 1px solid #293139">
+              <div style="margin-bottom: 10px;" title="Blacklister ce jeu (il ne sera jamais suggéré lors d'une session)" class="ion-eye icon-blacklist"></div>
+            <div title="Supprimer ce jeu" data-toggle="modal" data-target="#deleteModal" class="ion-trash-b icon-delete"></div>
           </div>
         </div>
       </div>

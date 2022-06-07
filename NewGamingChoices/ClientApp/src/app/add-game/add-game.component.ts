@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GameService } from '../services/game.service';
-import { Game } from './game';
+import { Game, PlatformPrice } from './game';
 
 @Component({
   selector: 'app-add-game',
@@ -13,7 +13,7 @@ export class AddGameComponent implements OnInit {
 
   baseUrl: string;
 
-  submittedGame: Game;
+  submittedGame = new Game();
 
   genres = ['Jeux de Course', 'Jeux de Combat',
     'FPS', 'Jeux d\'Aventure'];
@@ -44,7 +44,7 @@ export class AddGameComponent implements OnInit {
     {
       this.minplayersvalues[i] = i+2;
     }
-    this.submittedGame.MinPlayers = 2;
+    this.submittedGame.minPlayers = 2;
 
     for(let i = 0; i < 98; i++)
     {
@@ -65,7 +65,7 @@ export class AddGameComponent implements OnInit {
 
   ispricevalid(value: any)
   {
-    value = value.replace(",", ".");
+    // value = value.replace(",", ".");
 
     if(value.includes("-"))
       return false;
@@ -81,24 +81,49 @@ export class AddGameComponent implements OnInit {
     return !isNaN(value);
   }
 
+  assignPlatformPrices()
+  {
+    let pfp = [];
+    for(let i = 0; i < this.platforms.length; i++)
+    {
+      if(this.selectedplatforms[i])
+      {
+        let pp = new PlatformPrice();
+        pp.platform = this.platforms[i];
+        pp.price = this.platformsprices[i];
+
+        pfp.push(pp);
+      }
+    }
+
+    this.submittedGame.platformPrices = pfp;
+  }
 
   onSubmit(gameForm: NgForm) {
-    console.log("submit game");
-    console.log(this.submittedGame);
 
     if(gameForm.valid && this.atleastoneplatformselected())
     {
-      console.log('testvalid');
+      this.assignPlatformPrices();
 
-    // let headers = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    // });
-    // let options = { headers: headers };
-    // this.http.post(this.baseUrl + 'game/addnewgame', JSON.stringify(this.submittedGame), options).subscribe(result => {
-
-    // }, error => console.error(error));
+      console.log(this.submittedGame);
+      this.gameService.AddGame(this.submittedGame).subscribe(result => {
+        //TODO
+      }
+      , error => console.error(error));
     }
 
+  }
+
+  isMoreThanOnePlatformSelected()
+  {
+    let isMoreThanOnePlatformSelected = this.selectedplatforms.filter(Boolean).length > 1;
+
+    if(!isMoreThanOnePlatformSelected)
+    {
+      this.submittedGame.isCrossPlatform = false;
+    }
+
+    return isMoreThanOnePlatformSelected;
   }
 }
 

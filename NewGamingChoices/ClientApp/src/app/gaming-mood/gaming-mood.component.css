@@ -91,14 +91,37 @@ a {
 }
 
 
-.icon-delete
+.icon-delete, .icon-blacklist, .icon-favorite
 {
   display: flex;
   justify-content: right;
-  padding-left: 20px;
-  padding-right: 10px;
   font-size: 25px;
   cursor: pointer;
+}
+
+.icon-delete
+{
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+.icon-blacklist
+{
+  padding-left: 20px;
+  padding-right: 7px;
+}
+
+.icon-blacklist:hover::before
+{
+  content: "\f306";
+}
+
+.icon-favorite
+{
+color:#6d14b9;
+font-size: 35px;
+padding-bottom: 8px;
+padding-right: 2px;
 }
 
 .isdownloadedyet

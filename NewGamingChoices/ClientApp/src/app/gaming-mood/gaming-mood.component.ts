@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from '../add-game/game';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'app-gaming-mood',
@@ -10,19 +11,33 @@ export class GamingMoodComponent implements OnInit {
 
   gamingmoods = [];
 
+  gamesearchbarvalue: string;
+  gamesuggestions = [];
 
-  constructor() {
+  displaybl: boolean;
 
-    this.gamingmoods.push("Minecraft");
-    this.gamingmoods.push("Jeu avec un nom franchement extrèmement vraiment très long");
-    this.gamingmoods.push("Super Smash Bros Ultimate");
-    this.gamingmoods.push("Overwatch");
-    this.gamingmoods.push("Rocket League");
-    this.gamingmoods.push("Don't Starve Together");
+  constructor(private gameService: GameService) {
+
+    // this.gamingmoods.push("Minecraft");
+    // this.gamingmoods.push("Jeu avec un nom franchement extrèmement vraiment très long");
+    // this.gamingmoods.push("Super Smash Bros Ultimate");
+    // this.gamingmoods.push("Overwatch");
+    // this.gamingmoods.push("Rocket League");
+    // this.gamingmoods.push("Don't Starve Together");
 
    }
 
   ngOnInit() {
+  }
+
+  updateGameSugg()
+  {
+    if(this.gamesearchbarvalue)
+    {
+      this.gameService.SearchGame(this.gamesearchbarvalue).subscribe(
+        result =>  { this.gamesuggestions = result; },
+        error => {console.error(error);});
+    }
   }
 
 }

@@ -18,7 +18,7 @@ namespace NewGamingChoices.Services
 
         public ApplicationUser GetUser(string userEmail)
         {
-            var user = _db.Users.FirstOrDefault(user => user.Email == userEmail);
+            var user = _db.Users.Include(u => u.GamingMoods).FirstOrDefault(user => user.Email == userEmail);
             return user;
         }
 

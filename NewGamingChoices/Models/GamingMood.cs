@@ -18,9 +18,14 @@ namespace NewGamingChoices.Models
 
         public bool IsOkToPlay { get; set; }
 
-        public bool IsNeverOkToPlay { get; set; }
-
         public bool IsGameDownloadedYet { get; set; }
+
+        /// <summary>
+        /// true : Favorite
+        /// false : Blacklist
+        /// null : N/A
+        /// </summary>
+        public bool? IsFavAndNotBlacklisted { get; set; }
 
         //public TimeSpan FavourDuration { get; set; }
 
