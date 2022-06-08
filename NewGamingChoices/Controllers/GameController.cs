@@ -75,14 +75,29 @@ namespace NewGamingChoices.Controllers
         }
 
         [Produces("application/json")]
-        [HttpGet("gamedetails")]
-        public IActionResult GetGameDetails(string gameid)
+        [HttpGet("gamedetailsid")]
+        public IActionResult GetGameDetailsById(string gameid)
         {
             try
             {
                 int gameidint = int.Parse(gameid);
 
                 var game = _db.Games.Include(g => g.PlatformPrices).FirstOrDefault(p => p.ID == gameidint);
+                return Ok(game);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet("gamedetailsname")]
+        public IActionResult GetGameDetailsByName(string gamename)
+        {
+            try
+            {
+                var game = _db.Games.Include(g => g.PlatformPrices).FirstOrDefault(p => p.Name == gamename);
                 return Ok(game);
             }
             catch

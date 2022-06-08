@@ -49,7 +49,7 @@ export class GameService {
       return this.http.get<Game[]>(this.baseUrl + 'game/searchgame', options);
   }
 
-  public GetGameDetails(id: string): Observable<Game>
+  public GetGameDetailsById(id: string): Observable<Game>
   {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -57,6 +57,17 @@ export class GameService {
       let params = new HttpParams().set('gameid', id);
 
       let options = { headers: headers, params: params };
-      return this.http.get<Game>(this.baseUrl + 'game/gamedetails', options);
+      return this.http.get<Game>(this.baseUrl + 'game/gamedetailsid', options);
+  }
+
+  public GetGameDetailsByName(name: string): Observable<Game>
+  {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      });
+      let params = new HttpParams().set('gamename', name);
+
+      let options = { headers: headers, params: params };
+      return this.http.get<Game>(this.baseUrl + 'game/gamedetailsname', options);
   }
 }

@@ -14,6 +14,9 @@ export class GamingMoodComponent implements OnInit {
   gamesearchbarvalue: string;
   gamesuggestions = [];
 
+  gamewithdetails: Game;
+  selectedPlatform = 0;
+
   displaybl: boolean;
 
   constructor(private gameService: GameService) {
@@ -38,6 +41,19 @@ export class GamingMoodComponent implements OnInit {
         result =>  { this.gamesuggestions = result; },
         error => {console.error(error);});
     }
+  }
+
+  getSearchGameDetails()
+  {
+    this.gamewithdetails = null;
+    this.gameService.GetGameDetailsByName(this.gamesearchbarvalue).subscribe({
+      next: (r) => { this.gamewithdetails = r;
+                  },
+     error : (e) => console.error(e)});
+
+     //Reset search bar
+     this.gamesuggestions = [];
+     this.gamesearchbarvalue = "";
   }
 
 }

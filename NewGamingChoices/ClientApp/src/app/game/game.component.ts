@@ -23,7 +23,7 @@ export class GameComponent implements OnInit {
       {
         if(params['gameid'])
         {
-           this.gameService.GetGameDetails(params['gameid']).subscribe({
+           this.gameService.GetGameDetailsById(params['gameid']).subscribe({
              next: (r) => { this.game = r;
                             console.log("jeu");
                             console.log(this.game);
