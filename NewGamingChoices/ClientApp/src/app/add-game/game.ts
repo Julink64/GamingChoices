@@ -1,7 +1,7 @@
 import { GameConsole } from "../models/console";
 
 export class Game {
-  iD: number;
+  id: number;
   name: string;
   description: string;
   thumbnailPath: string;
@@ -17,10 +17,10 @@ export class Game {
 }
 
 export class GamingMood {
+  id: string;
   game: Game;
   console: GameConsole;
   isOkToPlay: boolean;
-  isNeverOkToPlay: boolean;
   isGameDownloadedYet: boolean;
   isFavAndNotBlacklisted: boolean | null;
 }

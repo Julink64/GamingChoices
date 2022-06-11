@@ -28,7 +28,7 @@
 
       <li *ngFor="let gm of gamingmoods; let index = index;" class="col-lg-6" style="margin-top: 20px;">
 
-        <input class="customcheckbox" type="checkbox" id="{{index}}">
+        <input (input)="updateIsOkToPlay(gm)" [(ngModel)]="gm.isOkToPlay" class="customcheckbox" type="checkbox" id="{{index}}">
         <div class="customcheckboxcontainer">
 
         <div class="nk-feature-1">
@@ -44,9 +44,9 @@
 
 
           <div class="nk-feature-cont" style="width: 100%;">
-            <label for="{{index}}"><h3 class="nk-feature-title">{{gm}}</h3></label>
+            <label for="{{index}}"><h3 class="nk-feature-title">{{gm.game.name}}</h3></label>
             <div class="isdownloadedyet">
-              <input type="checkbox" id="isdownloaded-{{index}}">&nbsp;&nbsp;<label title="Jouer à ce jeu ne nécessite pas de temps de préparation (téléchargement, CD à trouver, ...)" style="display: inline;" for="isdownloaded-{{index}}">Prêt à jouer</label>
+              <input (click)="updateIsGameDownloadedYet(gm)" [(ngModel)]="gm.isGameDownloadedYet" type="checkbox" id="isdownloaded-{{index}}">&nbsp;&nbsp;<label title="Jouer à ce jeu ne nécessite pas de temps de préparation (téléchargement, CD à trouver, ...)" style="display: inline;" for="isdownloaded-{{index}}">Prêt à jouer</label>
             </div>
           </div>
           <div style="border-left : 1px solid #293139">
@@ -116,7 +116,7 @@
 
                                   <div class="nk-gap-3"></div>
 
-                                  <button class="nk-btn nk-btn-rounded nk-btn-color-main-1" disabled>Ajouter<span *ngIf="gamewithdetails.platformPrices.length > 1"> sur {{gamewithdetails.platformPrices[selectedPlatform].platform}}</span></button>
+                                  <button class="nk-btn nk-btn-rounded nk-btn-color-main-1" data-dismiss="modal" (click)="addGamingMood()">Ajouter<span *ngIf="gamewithdetails.platformPrices.length > 1"> sur {{gamewithdetails.platformPrices[selectedPlatform].platform}}</span></button>
 
 
 

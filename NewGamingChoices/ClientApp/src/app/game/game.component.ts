@@ -25,9 +25,7 @@ export class GameComponent implements OnInit {
         {
            this.gameService.GetGameDetailsById(params['gameid']).subscribe({
              next: (r) => { this.game = r;
-                            console.log("jeu");
                             console.log(this.game);
-                            this.updatePlatformPrices();
                          },
             error : (e) => console.error(e)});
         }
@@ -35,22 +33,6 @@ export class GameComponent implements OnInit {
 
       console.log(this.game);
 
-  }
-
-  updatePlatformPrices()
-  {
-    if(this.game.platformPrices)
-    {
-      for(let i = 0; i < this.game.platformPrices.length; i++)
-      {
-        console.log("testetestestestes");
-        if(this.game.platformPrices[i].platform == 'PC')
-        {
-          console.log('testhello');
-          this.selectedPlatform = i;
-        }
-      }
-    }
   }
 
 }

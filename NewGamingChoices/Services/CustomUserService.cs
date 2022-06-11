@@ -22,6 +22,12 @@ namespace NewGamingChoices.Services
             return user;
         }
 
+        public ApplicationUser GetUserById(string userId)
+        {
+            var user = _db.Users.Include(u => u.GamingMoods).ThenInclude(gm => gm.Game).FirstOrDefault(user => user.Id == userId);
+            return user;
+        }
+
         public void UpdateUser(ApplicationUser user)
         {
             //var consolesdb = _db.Consoles.Include(c => c.Users);

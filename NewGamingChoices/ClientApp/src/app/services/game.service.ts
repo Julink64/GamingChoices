@@ -10,6 +10,7 @@ export class GameService {
 
   constructor(private http:HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
+//#region Game
   public AddGame(submittedGame: Game): Observable<any>
   {
     let headers = new HttpHeaders({
@@ -17,25 +18,6 @@ export class GameService {
     });
     let options = { headers: headers };
     return this.http.post(this.baseUrl + 'game/addnewgame', JSON.stringify(submittedGame), options);
-  }
-
-  public AddOrUpdateGamingMood(gm: GamingMood): Observable<any>
-  {
-    let headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    });
-    let options = { headers: headers };
-    return this.http.post(this.baseUrl + 'game/addorupdategm', JSON.stringify(gm), options);
-  }
-
-  public GetConsolesList(): Observable<any>
-  {
-    let headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-    });
-
-    let options = { headers: headers};
-    return this.http.get(this.baseUrl + 'game/getconsoleslist', options);
   }
 
   public SearchGame(term: string): Observable<any>
@@ -70,4 +52,48 @@ export class GameService {
       let options = { headers: headers, params: params };
       return this.http.get<Game>(this.baseUrl + 'game/gamedetailsname', options);
   }
+
+//#endregion
+
+//#region Console
+  public GetConsolesList(): Observable<any>
+  {
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    });
+
+    let options = { headers: headers};
+    return this.http.get(this.baseUrl + 'game/getconsoleslist', options);
+  }
+//#endregion
+
+//#region Gaming Mood
+  public AddGamingMood(gameid: number): Observable<any>
+  {
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    });
+    let options = { headers: headers };
+    return this.http.post(this.baseUrl + 'game/addgm', gameid, options);
+  }
+
+  public UpdateGamingMood(gm: GamingMood): Observable<any>
+  {
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    });
+    let options = { headers: headers };
+    return this.http.post(this.baseUrl + 'game/updategm', JSON.stringify(gm), options);
+  }
+
+  public GetGamingMoods(): Observable<any>
+  {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      });
+
+      let options = { headers: headers };
+      return this.http.get<GamingMood[]>(this.baseUrl + 'game/getgm', options);
+  }
+//#endregion
 }

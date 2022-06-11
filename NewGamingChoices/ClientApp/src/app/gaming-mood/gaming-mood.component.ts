@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Game } from '../add-game/game';
+import { Game, GamingMood } from '../add-game/game';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { GameService } from '../services/game.service';
 })
 export class GamingMoodComponent implements OnInit {
 
-  gamingmoods = [];
+  gamingmoods: GamingMood[];
 
   gamesearchbarvalue: string;
   gamesuggestions = [];
@@ -31,6 +31,7 @@ export class GamingMoodComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.loadGamingMoods();
   }
 
   updateGameSugg()
@@ -56,4 +57,43 @@ export class GamingMoodComponent implements OnInit {
      this.gamesearchbarvalue = "";
   }
 
+  addGamingMood()
+  {
+    console.log(this.gamewithdetails);
+    this.gameService.AddGamingMood(this.gamewithdetails.id).subscribe(
+      result => { this.loadGamingMoods(); },
+      error => {console.error(error);});
+
+
+  }
+
+  loadGamingMoods()
+  {
+    this.gameService.GetGamingMoods().subscribe(
+      result => {this.gamingmoods = result;},
+      error => {console.error(error);});
+  }
+
+  updateIsGameDownloadedYet(gm: GamingMood)
+  {
+    gm.isGameDownloadedYet = !gm.isGameDownloadedYet;
+    this.updateGM(gm);
+  }
+
+  updateIsOkToPlay(gm: GamingMood)
+  {
+    gm.isOkToPlay = !gm.isOkToPlay;
+    this.updateGM(gm);
+  }
+
+  updateGM(gm: GamingMood)
+  {
+    this.gameService.UpdateGamingMood(gm).subscribe(
+      error => {console.error(error);});
+
+    // this.loadGamingMoods();
+  }
+
 }
+
+

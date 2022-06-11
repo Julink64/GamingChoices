@@ -43,20 +43,52 @@ namespace NewGamingChoices.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult addOrUpdateGm([FromBody] GamingMood gm)
+        public IActionResult addgm([FromBody] int gameid)
         {
             GameService gameService = new GameService(_db);
-            CustomUserService userService = new CustomUserService(_db);
-            ApplicationUser currentuser = userService.GetUser(this.User.Identity.Name);
-            if (gameService.AddOrUpdateGamingMood(gm, currentuser))
+            ApplicationUser currentuser = getCurrentUser();
+
+            if (gameService.AddGamingMood(gameid, currentuser))
             {
                 return Ok();
             }
             else
             {
-                return Ok("Une erreur est survenue lors de l'ajout ou de la mise à jour du Gaming Mood.");
+                return Ok("Une erreur est survenue lors de l'ajout du Gaming Mood.");
             }
 
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult updategm([FromBody] GamingMood gm)
+        {
+            GameService gameService = new GameService(_db);
+            ApplicationUser currentuser = getCurrentUser();
+
+            if (gameService.UpdateGamingMood(gm, currentuser))
+            {
+                return Ok();
+            }
+            else
+            {
+                return Ok("Une erreur est survenue lors de la mise à jour du Gaming Mood.");
+            }
+
+        }
+
+        [Produces("application/json")]
+        [HttpGet("getgm")]
+        public IActionResult getgm()
+        {
+            try
+            { 
+                ApplicationUser currentuser = getCurrentUser();
+                return Ok(currentuser.GamingMoods);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [Produces("application/json")]
@@ -82,7 +114,7 @@ namespace NewGamingChoices.Controllers
             {
                 int gameidint = int.Parse(gameid);
 
-                var game = _db.Games.Include(g => g.PlatformPrices).FirstOrDefault(p => p.ID == gameidint);
+                var game = _db.Games.Include(g => g.PlatformPrices.OrderBy(pp => pp.Platform != "PC")).FirstOrDefault(p => p.ID == gameidint);
                 return Ok(game);
             }
             catch
@@ -97,7 +129,7 @@ namespace NewGamingChoices.Controllers
         {
             try
             {
-                var game = _db.Games.Include(g => g.PlatformPrices).FirstOrDefault(p => p.Name == gamename);
+                var game = _db.Games.Include(g => g.PlatformPrices.OrderBy(pp => pp.Platform != "PC")).FirstOrDefault(p => p.Name == gamename);
                 return Ok(game);
             }
             catch
@@ -113,6 +145,11 @@ namespace NewGamingChoices.Controllers
             return gameService.GetConsolesList();
         }
 
+        private ApplicationUser getCurrentUser()
+        {
+            CustomUserService userService = new CustomUserService(_db);
+            return userService.GetUserById(this.User.Claims.ToList()[5].Value); // Cette méthode est à confirmer
+        }
 
     }
 }

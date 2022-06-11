@@ -33,10 +33,19 @@ namespace NewGamingChoices.Services
             return true;
         }
 
-        public bool AddOrUpdateGamingMood(GamingMood gamingmood, ApplicationUser currentuser)
+        public bool AddGamingMood(int gameid, ApplicationUser currentuser)
+        {
+                Game gametoadd = _db.Games.FirstOrDefault(g => g.ID == gameid);
+                GamingMood newgm = new GamingMood(gametoadd);
+                currentuser.GamingMoods.Add(newgm);
+                _db.SaveChanges();
+                return true;
+        }
+
+        public bool UpdateGamingMood(GamingMood gamingmood, ApplicationUser currentuser)
         {
             var existinggm = currentuser.GamingMoods.FirstOrDefault(gm => gm.Game.ID == gamingmood.Game.ID && gm.Console?.ID == gamingmood.Console?.ID);
-            if(existinggm != null)
+            if (existinggm != null)
             {
                 if (gamingmood.IsFavAndNotBlacklisted.HasValue && !gamingmood.IsFavAndNotBlacklisted.Value) // If blacklisted, then never ok to play
                     gamingmood.IsOkToPlay = false;
@@ -50,10 +59,7 @@ namespace NewGamingChoices.Services
             }
             else
             {
-                gamingmood.IsOkToPlay = true;
-                currentuser.GamingMoods.Add(gamingmood);
-                _db.SaveChanges();
-                return true;
+                throw new Exception("Erreur lors de la mise à jour du Gaming Mood : Gaming Mood absent de la base de données !");
             }
         }
 
