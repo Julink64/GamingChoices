@@ -76,6 +76,22 @@ namespace NewGamingChoices.Controllers
 
         }
 
+        [HttpPost("[action]")]
+        public IActionResult deletegm([FromBody] string gmid)
+        {
+            GameService gameService = new GameService(_db);
+
+            if (gameService.DeleteGamingMood(gmid))
+            {
+                return Ok();
+            }
+            else
+            {
+                return Ok("Une erreur est survenue lors de la suppression du Gaming Mood.");
+            }
+
+        }
+
         [Produces("application/json")]
         [HttpGet("getgm")]
         public IActionResult getgm()
@@ -83,7 +99,14 @@ namespace NewGamingChoices.Controllers
             try
             { 
                 ApplicationUser currentuser = getCurrentUser();
-                return Ok(currentuser.GamingMoods);
+
+                var usergms = currentuser.GamingMoods;
+                List<GamingMood> orderedgm = new List<GamingMood>();
+                orderedgm.AddRange(usergms.Where(gm => gm.IsFavAndNotBlacklisted.HasValue && gm.IsFavAndNotBlacklisted.Value).OrderBy(gm => gm.Game.Name));
+                orderedgm.AddRange(currentuser.GamingMoods.Where(gm => !gm.IsFavAndNotBlacklisted.HasValue).OrderBy(gm => gm.Game.Name));
+                orderedgm.AddRange(currentuser.GamingMoods.Where(gm => gm.IsFavAndNotBlacklisted.HasValue && !gm.IsFavAndNotBlacklisted.Value).OrderBy(gm => gm.Game.Name));
+
+                return Ok(orderedgm);
             }
             catch
             {

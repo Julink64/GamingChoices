@@ -91,7 +91,7 @@ a {
 }
 
 
-.icon-delete, .icon-blacklist, .icon-favorite
+.icon-delete, .icon-blacklist, .icon-unblacklist, .icon-favorite
 {
   display: flex;
   justify-content: right;
@@ -116,12 +116,28 @@ a {
   content: "\f306";
 }
 
+.icon-unblacklist
+{
+  padding-left: 20px;
+  padding-right: 7px;
+}
+
+.icon-unblacklist:hover::before
+{
+  content: "\f133";
+}
+
 .icon-favorite
 {
 color:#6d14b9;
 font-size: 35px;
 padding-bottom: 8px;
 padding-right: 2px;
+}
+
+.icon-favorite:hover::before
+{
+  content : "\f2fc";
 }
 
 .isdownloadedyet

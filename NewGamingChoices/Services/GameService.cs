@@ -63,6 +63,18 @@ namespace NewGamingChoices.Services
             }
         }
 
+        public bool DeleteGamingMood(string gmid)
+        {
+            var gmtodelete = _db.GamingMoods.FirstOrDefault(gm => gm.Id == gmid);
+            if (gmtodelete != null)
+            {
+                _db.GamingMoods.Remove(gmtodelete);
+                _db.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
         public void UpdateGameSteamId(Game game)
         {
             var existinggame = _db.Games.FirstOrDefault(g => g.Name.IsSimilarTo(game.Name));

@@ -17,6 +17,9 @@ export class GamingMoodComponent implements OnInit {
   gamewithdetails: Game;
   selectedPlatform = 0;
 
+  selectedgamename = "";
+  selectedgm: GamingMood;
+
   displaybl: boolean;
 
   constructor(private gameService: GameService) {
@@ -63,8 +66,6 @@ export class GamingMoodComponent implements OnInit {
     this.gameService.AddGamingMood(this.gamewithdetails.id).subscribe(
       result => { this.loadGamingMoods(); },
       error => {console.error(error);});
-
-
   }
 
   loadGamingMoods()
@@ -72,6 +73,37 @@ export class GamingMoodComponent implements OnInit {
     this.gameService.GetGamingMoods().subscribe(
       result => {this.gamingmoods = result;},
       error => {console.error(error);});
+  }
+
+  selectGM(gm: GamingMood)
+  {
+    this.selectedgamename = gm.game.name;
+    this.selectedgm = gm;
+  }
+
+
+  updateFavorite(gm: GamingMood)
+  {
+    gm.isFavAndNotBlacklisted = true;
+    this.updateGM(gm);
+  }
+
+  updateUnFavUnBL(gm: GamingMood)
+  {
+    gm.isFavAndNotBlacklisted = null;
+    this.updateGM(gm);
+  }
+
+  blacklistSelectedGM()
+  {
+    this.updateBlacklist(this.selectedgm);
+    let indextobl = this.gamingmoods.findIndex(gm => gm.id == this.selectedgm.id);
+    this.gamingmoods[indextobl].isOkToPlay = false;
+  }
+  updateBlacklist(gm: GamingMood)
+  {
+    gm.isFavAndNotBlacklisted = false;
+    this.updateGM(gm);
   }
 
   updateIsGameDownloadedYet(gm: GamingMood)
@@ -83,6 +115,11 @@ export class GamingMoodComponent implements OnInit {
   updateIsOkToPlay(gm: GamingMood)
   {
     gm.isOkToPlay = !gm.isOkToPlay;
+    if(gm.isFavAndNotBlacklisted != null && !gm.isFavAndNotBlacklisted)
+    {
+      gm.isFavAndNotBlacklisted = null;
+    }
+
     this.updateGM(gm);
   }
 
@@ -94,6 +131,15 @@ export class GamingMoodComponent implements OnInit {
     // this.loadGamingMoods();
   }
 
+
+  deleteSelectedGM()
+  {
+    this.gameService.DeleteGamingMood(this.selectedgm.id).subscribe(
+      error => {console.error(error);});
+
+    let indextodelete = this.gamingmoods.findIndex(gm => gm.id == this.selectedgm.id);
+    this.gamingmoods.splice(indextodelete, 1);
+  }
 }
 
 

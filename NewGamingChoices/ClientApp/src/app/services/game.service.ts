@@ -86,6 +86,15 @@ export class GameService {
     return this.http.post(this.baseUrl + 'game/updategm', JSON.stringify(gm), options);
   }
 
+  public DeleteGamingMood(gmid: string): Observable<any>
+  {
+    let headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    });
+    let options = { headers: headers };
+    return this.http.post(this.baseUrl + 'game/deletegm', JSON.stringify(gmid), options);
+  }
+
   public GetGamingMoods(): Observable<any>
   {
     let headers = new HttpHeaders({

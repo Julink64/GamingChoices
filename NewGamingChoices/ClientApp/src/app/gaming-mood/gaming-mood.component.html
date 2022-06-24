@@ -26,7 +26,7 @@
 
     <div class="switches row">
 
-      <li *ngFor="let gm of gamingmoods; let index = index;" class="col-lg-6" style="margin-top: 20px;">
+      <li *ngFor="let gm of gamingmoods; let index = index;" [ngStyle]="!gm.isFavAndNotBlacklisted && gm.isFavAndNotBlacklisted != null && {'opacity': '0.7'}" class="col-lg-6" style="margin-top: 20px;">
 
         <input (input)="updateIsOkToPlay(gm)" [(ngModel)]="gm.isOkToPlay" class="customcheckbox" type="checkbox" id="{{index}}">
         <div class="customcheckboxcontainer">
@@ -40,8 +40,8 @@
           </div>
 
         </label>
-        <div title="Favoris" class="ion-android-star-outline icon-favorite"></div>
-
+        <div *ngIf="!gm.isFavAndNotBlacklisted" title="Favoris" (click)="updateFavorite(gm)" class="ion-android-star-outline icon-favorite"></div>
+        <div *ngIf="gm.isFavAndNotBlacklisted" title="Favoris" (click)="updateUnFavUnBL(gm)" class="ion-android-star icon-favorite"></div>
 
           <div class="nk-feature-cont" style="width: 100%;">
             <label for="{{index}}"><h3 class="nk-feature-title">{{gm.game.name}}</h3></label>
@@ -50,8 +50,9 @@
             </div>
           </div>
           <div style="border-left : 1px solid #293139">
-              <div style="margin-bottom: 10px;" title="Blacklister ce jeu (il ne sera jamais suggéré lors d'une session)" class="ion-eye icon-blacklist"></div>
-            <div title="Supprimer ce jeu" data-toggle="modal" data-target="#deleteModal" class="ion-trash-b icon-delete"></div>
+            <div *ngIf="gm.isFavAndNotBlacklisted == null || gm.isFavAndNotBlacklisted" (click)="selectGM(gm)" style="margin-bottom: 10px;" title="Blacklister ce jeu" data-toggle="modal" data-target="#blacklistModal" class="ion-eye icon-blacklist"></div>
+            <div *ngIf="!gm.isFavAndNotBlacklisted && gm.isFavAndNotBlacklisted != null" (click)="updateUnFavUnBL(gm)" style="margin-bottom: 10px;" title="Déblacklister ce jeu" class="ion-eye-disabled icon-unblacklist"></div>
+            <div (click)="selectGM(gm)" title="Supprimer ce jeu" data-toggle="modal" data-target="#deleteModal" class="ion-trash-b icon-delete"></div>
           </div>
         </div>
       </div>
@@ -148,24 +149,43 @@
 
               <div class="nk-gap-1"></div>
               <form action="#" class="nk-form text-white">
-                          Es-tu sûr de vouloir supprimer <span style="font-weight: bold;" class="text-main-1">Rocket League</span> de ta collection ?
+                          Es-tu sûr de vouloir supprimer <span style="font-weight: bold;" class="text-main-1">{{selectedgamename}}</span> de ta collection ?
 
 
                   <div class="nk-gap-1"></div>
-                  <div class="row vertical-gap">
-                      <div class="col-md-6">
-                          <a href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-block"><span class="icon ion-trash-b"></span> Supprimer</a>
-                      </div>
-                      <!-- <div class="col-md-6">
-                        <a href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-block">Annuler</a>
-                      </div> -->
-                  </div>
+                          <a (click)="deleteSelectedGM()" href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-block"><span class="icon ion-trash-b"></span> Supprimer</a>
               </form>
           </div>
       </div>
   </div>
 </div>
 <!-- Fin modale suppression -->
+
+<!-- Modale blacklist -->
+<div class="nk-modal modal fade" id="blacklistModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-body">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span class="ion-android-close"></span>
+              </button>
+
+              <h4 class="mb-0"><span class="text-main-1">Blacklister</span> un jeu</h4>
+
+              <div class="nk-gap-1"></div>
+              <form action="#" class="nk-form text-white">
+                          Es-tu sûr de vouloir blacklister <span style="font-weight: bold;" class="text-main-1">{{selectedgamename}}</span> ?<br /><br />
+                          Un jeu blacklisté ne sera jamais suggéré (que tu le possèdes ou non). Il reste sur cette page et peut être dé-blacklisté à tout moment.
+
+
+                  <div class="nk-gap-1"></div>
+                          <a (click)="blacklistSelectedGM()" href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-block"><span class="icon ion-eye-disabled"></span>Blacklister</a>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Fin modale blacklist -->
 
 
 <img class="nk-page-background-top" src="assets/images/bg-top.png" alt="">
