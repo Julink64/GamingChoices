@@ -129,6 +129,29 @@
                 </div>
 
               </div>
+
+              <div *ngIf="!gamewithdetails" class="container">
+
+                    <h4 class="mb-0">I am <span class="text-main-1">Error</span></h4>
+                    <div class="nk-gap-1"></div>
+
+                    <div class="text-white">
+                      Désolé, aucun jeu du nom de <span style="font-weight: bold;" class="text-main-1">{{wrongsearchbuff}}</span> n'a été trouvé dans notre base de données...<br /><br />
+                      Cependant, tu peux proposer de l'ajouter.
+
+                      <div class="nk-gap-2"></div>
+
+                      <div class="row vertical-gap">
+                        <div class="col-md-6">
+                        <a href="add-game" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-block"><span class="icon ion-plus-circled"></span> Ajouter un jeu</a>
+                        </div>
+                        <div class="col-md-6">
+                        <a href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-dark-1 nk-btn-block">Annuler</a>
+                        </div>
+                      </div>
+                    </div>
+
+              </div>
           </div>
      </div>
   </div>

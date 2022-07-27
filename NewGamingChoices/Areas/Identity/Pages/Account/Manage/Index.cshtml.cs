@@ -22,7 +22,8 @@ namespace NewGamingChoices.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
+      
+        [Display(Name = "Pseudo")]
         public string Username { get; set; }
 
         [TempData]
@@ -47,7 +48,7 @@ namespace NewGamingChoices.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
             };
         }
 

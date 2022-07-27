@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -30,14 +31,21 @@ namespace NewGamingChoices.Controllers
         [HttpPost("[action]")]
         public IActionResult addNewGame([FromBody] Game game) // Cette méthode concerne l'ajout de jeu manuel (hors Steam)
         {
-            GameService gameService = new GameService(_db);
-            if(gameService.AddNewGame(game))
+            try
             {
-                return Ok();
+                GameService gameService = new GameService(_db);
+                if (gameService.AddNewGame(game))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return Ok("Ce jeu existe déjà dans notre base de données et n'a donc pas été ajouté !");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return Ok("Ce jeu existe déjà dans notre base de données et n'a donc pas été ajouté !");
+                return StatusCode(500, e.Message);
             }
 
         }
@@ -45,16 +53,24 @@ namespace NewGamingChoices.Controllers
         [HttpPost("[action]")]
         public IActionResult addgm([FromBody] int gameid)
         {
-            GameService gameService = new GameService(_db);
-            ApplicationUser currentuser = getCurrentUser();
+            try
+            {
+                GameService gameService = new GameService(_db);
+                CustomUserService userService = new CustomUserService(_db);
+                ApplicationUser currentuser = userService.GetCurrentUser(User);
 
-            if (gameService.AddGamingMood(gameid, currentuser))
-            {
-                return Ok();
+                if (gameService.AddGamingMood(gameid, currentuser))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return Ok("Une erreur est survenue lors de l'ajout du Gaming Mood.");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return Ok("Une erreur est survenue lors de l'ajout du Gaming Mood.");
+                return StatusCode(500, e.Message);
             }
 
         }
@@ -62,16 +78,24 @@ namespace NewGamingChoices.Controllers
         [HttpPost("[action]")]
         public IActionResult updategm([FromBody] GamingMood gm)
         {
-            GameService gameService = new GameService(_db);
-            ApplicationUser currentuser = getCurrentUser();
+            try
+            {
+                GameService gameService = new GameService(_db);
+                CustomUserService userService = new CustomUserService(_db);
+                ApplicationUser currentuser = userService.GetCurrentUser(User);
 
-            if (gameService.UpdateGamingMood(gm, currentuser))
-            {
-                return Ok();
+                if (gameService.UpdateGamingMood(gm, currentuser))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return Ok("Une erreur est survenue lors de la mise à jour du Gaming Mood.");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return Ok("Une erreur est survenue lors de la mise à jour du Gaming Mood.");
+                return StatusCode(500, e.Message);
             }
 
         }
@@ -79,15 +103,22 @@ namespace NewGamingChoices.Controllers
         [HttpPost("[action]")]
         public IActionResult deletegm([FromBody] string gmid)
         {
-            GameService gameService = new GameService(_db);
+            try
+            {
+                GameService gameService = new GameService(_db);
 
-            if (gameService.DeleteGamingMood(gmid))
-            {
-                return Ok();
+                if (gameService.DeleteGamingMood(gmid))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return Ok("Une erreur est survenue lors de la suppression du Gaming Mood.");
+                }
             }
-            else
+            catch (Exception e)
             {
-                return Ok("Une erreur est survenue lors de la suppression du Gaming Mood.");
+                return StatusCode(500, e.Message);
             }
 
         }
@@ -97,8 +128,9 @@ namespace NewGamingChoices.Controllers
         public IActionResult getgm()
         {
             try
-            { 
-                ApplicationUser currentuser = getCurrentUser();
+            {
+                CustomUserService userService = new CustomUserService(_db);
+                ApplicationUser currentuser = userService.GetCurrentUser(User);
 
                 var usergms = currentuser.GamingMoods;
                 List<GamingMood> orderedgm = new List<GamingMood>();
@@ -108,9 +140,9 @@ namespace NewGamingChoices.Controllers
 
                 return Ok(orderedgm);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -123,9 +155,9 @@ namespace NewGamingChoices.Controllers
                 var names = _db.Games.Where(p => p.Name.Contains(term)).Select(p => p.Name).ToList();
                 return Ok(names);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -140,9 +172,9 @@ namespace NewGamingChoices.Controllers
                 var game = _db.Games.Include(g => g.PlatformPrices.OrderBy(pp => pp.Platform != "PC")).FirstOrDefault(p => p.ID == gameidint);
                 return Ok(game);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -155,9 +187,9 @@ namespace NewGamingChoices.Controllers
                 var game = _db.Games.Include(g => g.PlatformPrices.OrderBy(pp => pp.Platform != "PC")).FirstOrDefault(p => p.Name == gamename);
                 return Ok(game);
             }
-            catch
+            catch (Exception e)
             {
-                return BadRequest();
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -166,12 +198,6 @@ namespace NewGamingChoices.Controllers
         {
             GameService gameService = new GameService(_db);
             return gameService.GetConsolesList();
-        }
-
-        private ApplicationUser getCurrentUser()
-        {
-            CustomUserService userService = new CustomUserService(_db);
-            return userService.GetUserById(this.User.Claims.ToList()[5].Value); // Cette méthode est à confirmer
         }
 
     }

@@ -1,0 +1,7 @@
+.icon-validate
+{
+  display: flex;
+  justify-content: right;
+  font-size: 25px;
+  cursor: pointer;
+}

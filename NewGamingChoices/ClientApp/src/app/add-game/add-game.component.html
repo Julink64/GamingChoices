@@ -10,12 +10,39 @@
   <div class="nk-info-box-icon">
       <i class="ion-close-round"></i>
   </div>
-  <h3>Erreur</h3>
+  <h3>Formulaire invalide</h3>
   <em *ngIf="name.invalid">Le nom du jeu est obligatoire.</em>
   <em *ngIf="!atleastoneplatformselected()"><br />Au moins une plateforme doit être sélectionnée.</em>
   <em *ngIf="atleastonepriceinvalid()"><br />Un prix est invalide.</em>
   <em *ngIf="selectedplatforms[0] && submittedGame.size && !isdisksizevalid(submittedGame.size)"><br />La taille du jeu sur PC est invalide.</em>
 
+</div>
+
+<div class="nk-info-box text-danger" *ngIf="errormessage">
+  <div class="nk-info-box-icon">
+    <i class="ion-close-round"></i>
+  </div>
+  <div class="nk-info-box-close nk-info-box-close-btn">
+    <i class="ion-close-round"></i>
+  </div>
+  <h3>Erreur</h3>
+  {{errormessage}}
+</div>
+
+<div class="nk-info-box text-success" *ngIf="successmessage">
+  <div class="nk-info-box-icon">
+    <i class="ion-checkmark-round"></i>
+  </div>
+  <div class="nk-info-box-close nk-info-box-close-btn">
+    <i class="ion-close-round"></i>
+</div>
+  <h3>Jeu ajouté !</h3>
+  Merci pour ton aide ! {{submittedGame.name}} a bien été ajouté à la liste des jeux. Il est à présent possible de l'ajouter à son Gaming Mood.
+
+  <div class="nk-gap-1"></div>
+  <a href="gaming-mood" class="nk-btn nk-btn-rounded nk-btn-color-success">
+      Mon Gaming Mood
+  </a>
 </div>
 
 

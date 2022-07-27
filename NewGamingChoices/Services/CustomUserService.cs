@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NewGamingChoices.Data;
 using NewGamingChoices.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NewGamingChoices.Services
@@ -16,9 +18,14 @@ namespace NewGamingChoices.Services
             _db = db;
         }
 
-        public ApplicationUser GetUser(string userEmail)
+        public ApplicationUser GetCurrentUser(ClaimsPrincipal user)
         {
-            var user = _db.Users.Include(u => u.GamingMoods).FirstOrDefault(user => user.Email == userEmail);
+            return GetUserById(user.Claims.ToList()[5].Value); // Cette méthode est à confirmer
+        }
+
+        public ApplicationUser GetUser(string username)
+        {
+            var user = _db.Users.Include(u => u.GamingMoods).FirstOrDefault(user => user.UserName == username);
             return user;
         }
 
@@ -80,5 +87,6 @@ namespace NewGamingChoices.Services
             _db.Users.Update(user);
             _db.SaveChanges();
         }
+
     }
 }

@@ -1,6 +1,9 @@
 import { GamingMood } from "../add-game/game";
+import { Friend } from "../friends-list/Friend";
 
 export interface GCUser {
+    id: string
+    userName: string;
     email: string;
     steamId: string;
     gamingMoods: GamingMood[];
@@ -9,6 +12,6 @@ export interface GCUser {
     computerPower: number | null;
     internetNetworkQuality: number;
     consoles: string;
-    askedFriendsList: string[];
-    friendsList: string[];
+    askedFriendsList: Friend[];
+    friendsList: Friend[];
 }

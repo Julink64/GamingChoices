@@ -46,20 +46,25 @@ namespace NewGamingChoices.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Le champ {0} est obligatoire.")]
+            [Display(Name = "Pseudo")]
+            [StringLength(100, ErrorMessage = "Le {0} doit faire au moins {2} et au maximum {1} caractères.", MinimumLength = 3)]
+            public string UserName { get; set; }
+
+            [Required(ErrorMessage = "Le champ {0} est obligatoire.")]
+            [EmailAddress(ErrorMessage = "Le champ {0} n'est pas une adresse email valide.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Le champ {0} est obligatoire.")]
+            [StringLength(100, ErrorMessage = "Le {0} doit faire au moins {2} et au maximum {1} caractères.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Mot de passe")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirmer mot de passe")]
+            [Compare("Password", ErrorMessage = "Le mot de passe et la confirmation du mot de passe ne sont pas identiques.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -75,7 +80,7 @@ namespace NewGamingChoices.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -89,8 +94,8 @@ namespace NewGamingChoices.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirmer votre email",
+                        $"Veuillez confirmer votre compte en <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>cliquant ici</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

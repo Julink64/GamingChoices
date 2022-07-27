@@ -10,6 +10,42 @@
     <title>@ViewData["Title"] - NewGamingChoices</title>
     <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Identity/css/site.css" />
+
+    <!-- START: Styles -->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7cOpen+Sans:400,700" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+
+    <!-- FontAwesome -->
+    <script defer src="../../assets/vendor/fontawesome-free/js/all.js"></script>
+    <script defer src="../../assets/vendor/fontawesome-free/js/v4-shims.js"></script>
+
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="../../assets/vendor/ionicons/css/ionicons.min.css">
+
+    <!-- Flickity -->
+    <link rel="stylesheet" href="../../assets/vendor/flickity/dist/flickity.min.css">
+
+    <!-- Photoswipe -->
+    <link rel="stylesheet" type="text/css" href="../../assets/vendor/photoswipe/dist/photoswipe.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/vendor/photoswipe/dist/default-skin/default-skin.css">
+
+    <!-- Seiyria Bootstrap Slider -->
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap-slider/dist/css/bootstrap-slider.min.css">
+
+    <!-- Summernote -->
+    <link rel="stylesheet" type="text/css" href="../../assets/vendor/summernote/dist/summernote-bs4.css">
+
+    <!-- GoodGames -->
+    <link rel="stylesheet" href="../../assets/css/goodgames.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../../assets/css/custom.css">
+
+    <!-- END: Styles -->
+
 </head>
 <body>
     <header>
@@ -44,11 +80,13 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="footer border-top text-muted">
-        <div class="container">
-            &copy; 2021 - NewGamingChoices - <a asp-area="" asp-page="Privacy">Privacy</a>
-        </div>
-    </footer>
+
+    <img class="nk-page-background-top" src="../../assets/images/bg-top-5.png" alt="">
+    @*<footer class="footer border-top text-muted">
+            <div class="container">
+                &copy; 2021 - NewGamingChoices - <a asp-area="" asp-page="Privacy">Privacy</a>
+            </div>
+        </footer>*@
     <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Identity/js/site.js" asp-append-version="true"></script>

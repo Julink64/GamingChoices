@@ -6,6 +6,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
+import { HomeComponent } from 'src/app/home/home.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
         { path: ApplicationPaths.LoginCallback, component: LoginComponent },
         { path: ApplicationPaths.LogOut, component: LogoutComponent },
         { path: ApplicationPaths.LoggedOut, component: LogoutComponent },
-        { path: ApplicationPaths.LogOutCallback, component: LogoutComponent }
+        { path: ApplicationPaths.LogOutCallback, component: LogoutComponent },
+        { path: "home", component: HomeComponent }
       ]
     )
   ],

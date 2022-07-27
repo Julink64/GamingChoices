@@ -3,6 +3,7 @@ using NewGamingChoices.Data;
 using NewGamingChoices.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json;
@@ -35,10 +36,30 @@ namespace NewGamingChoices.Models
         public string Consoles { get; set; }
 
         [NotMapped]
-        public List<GameConsole> ConsolesFullList { get { return JsonSerializer.Deserialize<List<GameConsole>>(Consoles); } }
+        public List<GameConsole> ConsolesFullList { get { return Consoles != null ? JsonSerializer.Deserialize<List<GameConsole>>(Consoles) : null; } }
 
-        public List<ApplicationUser> AskedFriendsList { get; set; }
-        public List<ApplicationUser> FriendsList { get; set; }
+        public string SerializedAskedFriendsList { get; set; }
+        public string SerializedFriendsList { get; set; }
+
+        [NotMapped]
+        public List<Friend> AskedFriendsList { get { return SerializedAskedFriendsList != null ? JsonSerializer.Deserialize<List<Friend>>(SerializedAskedFriendsList) : new List<Friend>(); } }
+        [NotMapped]
+        public List<Friend> FriendsList { get { return SerializedFriendsList != null ? JsonSerializer.Deserialize<List<Friend>>(SerializedFriendsList) : new List<Friend>(); } }
+
+        public void UpdateAskedFriendsList(List<Friend> askedFriendsList) { SerializedAskedFriendsList = JsonSerializer.Serialize(askedFriendsList); }
+        public void UpdateFriendsList(List<Friend> friendsList) { SerializedFriendsList = JsonSerializer.Serialize(friendsList); }
+
+        public class Friend
+        {
+            public string Id { get; set; }
+            public string UserName { get; set; }
+
+            public Friend(string id, string username)
+            {
+                Id = id;
+                UserName = username;
+            }
+        }
 
         public async Task UpdateSteamGamesAsync(ApplicationDbContext dbContext)
         {

@@ -19,6 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { GameComponent } from './game/game.component';
 import { BooleanToTextPipe, DiscSizePipe, RequiredPowerPipe } from './services/custompipes.pipe';
+import { RedirectGMGuard } from './redirectgm.guard';
+import { FriendsListComponent } from './friends-list/friends-list.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { BooleanToTextPipe, DiscSizePipe, RequiredPowerPipe } from './services/c
     GameComponent,
     BooleanToTextPipe,
     DiscSizePipe,
-    RequiredPowerPipe
+    RequiredPowerPipe,
+    FriendsListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,14 +44,17 @@ import { BooleanToTextPipe, DiscSizePipe, RequiredPowerPipe } from './services/c
     ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [RedirectGMGuard] },
+
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
       { path: 'add-game', component: AddGameComponent, canActivate: [AuthorizeGuard] },
       { path: 'profile', component: UserProfileComponent, canActivate: [AuthorizeGuard] },
       // { path: 'profile', component: UserProfileComponent },
       { path: 'gaming-mood', component: GamingMoodComponent, canActivate: [AuthorizeGuard] },
       // { path: 'gaming-mood', component: GamingMoodComponent },
+      { path: 'friends-list', component: FriendsListComponent, canActivate: [AuthorizeGuard] },
       { path: 'game/:gameid', component: GameComponent, canActivate: [AuthorizeGuard] },
+      { path: '**', redirectTo: ''}
     ]),
     BrowserAnimationsModule,
     MatAutocompleteModule,

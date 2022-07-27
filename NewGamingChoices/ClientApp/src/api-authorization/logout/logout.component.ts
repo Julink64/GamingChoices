@@ -25,12 +25,12 @@ export class LogoutComponent implements OnInit {
     const action = this.activatedRoute.snapshot.url[1];
     switch (action.path) {
       case LogoutActions.Logout:
-        if (!!window.history.state.local) {
+        // if (!!window.history.state.local) {
           await this.logout(this.getReturnUrl());
-        } else {
-          // This prevents regular links to <app>/authentication/logout from triggering a logout
-          this.message.next('The logout was not initiated from within the page.');
-        }
+        // } else {
+        //   // This prevents regular links to <app>/authentication/logout from triggering a logout
+        //   this.message.next('The logout was not initiated from within the page.');
+        // }
 
         break;
       case LogoutActions.LogoutCallback:
@@ -105,7 +105,7 @@ export class LogoutComponent implements OnInit {
     }
     return (state && state.returnUrl) ||
       fromQuery ||
-      ApplicationPaths.LoggedOut;
+      "home"
   }
 }
 

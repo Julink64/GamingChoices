@@ -11,6 +11,9 @@ import { Game, PlatformPrice } from './game';
 })
 export class AddGameComponent implements OnInit {
 
+  errormessage: any;
+  successmessage: string;
+
   baseUrl: string;
 
   submittedGame = new Game();
@@ -36,7 +39,7 @@ export class AddGameComponent implements OnInit {
       result =>  { this.consoles = result.map(o => o.name);
                    this.platforms = ['PC'].concat(this.consoles);
                   },
-      error => {console.error(error);});
+      error => this.errormessage = error);
 
 
 
@@ -101,15 +104,18 @@ export class AddGameComponent implements OnInit {
 
   onSubmit(gameForm: NgForm) {
 
+    this.errormessage = null;
+    this.successmessage = null;
+
     if(gameForm.valid && this.atleastoneplatformselected())
     {
       this.assignPlatformPrices();
 
       console.log(this.submittedGame);
       this.gameService.AddGame(this.submittedGame).subscribe(result => {
-        //TODO
+        this.successmessage = "ok"
       }
-      , error => console.error(error));
+      , error => this.errormessage = error);
     }
 
   }

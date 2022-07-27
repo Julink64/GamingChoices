@@ -14,6 +14,8 @@ export class GamingMoodComponent implements OnInit {
   gamesearchbarvalue: string;
   gamesuggestions = [];
 
+  wrongsearchbuff: string;
+
   gamewithdetails: Game;
   selectedPlatform = 0;
 
@@ -57,6 +59,7 @@ export class GamingMoodComponent implements OnInit {
 
      //Reset search bar
      this.gamesuggestions = [];
+     this.wrongsearchbuff = this.gamesearchbarvalue;
      this.gamesearchbarvalue = "";
   }
 

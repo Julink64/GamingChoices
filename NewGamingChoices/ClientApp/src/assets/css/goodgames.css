@@ -3366,9 +3366,9 @@ img.rounded {
     text-decoration: none;
 }
 
-.nk-navbar .nk-nav .nk-drop-item > a::after {
+/* .nk-navbar .nk-nav .nk-drop-item > a::after {
     content: " +";
-}
+} */
 
 .nk-navbar .nk-nav .nk-drop-item .nk-drop-item > a::after {
     position: absolute;
