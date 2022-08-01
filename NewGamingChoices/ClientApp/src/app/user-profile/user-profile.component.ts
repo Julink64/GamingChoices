@@ -12,6 +12,9 @@ import { UserService } from '../services/user.service';
 })
 export class UserProfileComponent implements OnInit {
 
+  errormessage: string;
+  successmessage: string;
+
   user: GCUser;
   computerPowerValues = ["Très performant (Fait tourner tous les jeux)", "Performant (Fait tourner presque tous les jeux)", "Standard (Fait tourner certains jeux)", "Limité (Ne fait tourner que quelques jeux)", "Basique (Le navigateur et Word c'est à peu près tout)"];
   internetNetworkQualityValues = ["Excellente (> 5Mo/s)", "Bonne (> 1Mo/s)", "Correcte (> 500Ko/s)", "Mauvaise (< 500 Ko/s)"];
@@ -33,7 +36,7 @@ export class UserProfileComponent implements OnInit {
       result =>  { this.consoles = result;
                    this.selectedconsoles = new Array<boolean>(result.length);
                   },
-      error => {console.error(error);});
+      error => {this.errormessage = error.error;});
 
       this.userService.GetCurrentUserDetails().subscribe(
         result =>  {this.user = result;
@@ -52,15 +55,16 @@ export class UserProfileComponent implements OnInit {
 
           }
         },
-        error => {console.error(error);});
+        error => {this.errormessage = error.error;});
   }
 
   onSubmit(profileForm: NgForm) {
-    console.log("submit profile");
+
+    this.successmessage = null;
+    this.errormessage = null;
 
     if(profileForm.valid)
     {
-      console.log('testvalid');
 
       let updateduserconsoles = [];
       for(let i=0; i < this.consoles.length; i++)
@@ -72,11 +76,9 @@ export class UserProfileComponent implements OnInit {
       }
       this.user.consoles = JSON.stringify(updateduserconsoles);
 
-      console.log(this.user);
-
       this.userService.UpdateUserInfo(this.user).subscribe(
-        result =>  console.log("User is updated"),
-        error => {console.error(error);});
+        result =>  this.successmessage = "Paramètres mis à jour avec succès !",
+        error => {this.errormessage = error.error;});
 
     }
 

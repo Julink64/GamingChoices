@@ -9,6 +9,11 @@ import { Friend } from './Friend';
 })
 export class FriendsListComponent implements OnInit {
 
+  errormessage: any;
+
+  successmessage: string;
+  successtitle: string;
+
   friendslist: Friend[];
   askingfriendslist: Friend[];
 
@@ -26,7 +31,7 @@ export class FriendsListComponent implements OnInit {
     this.userService.GetCurrentUserDetails().subscribe(
       result =>  { this.friendslist = result.friendsList;
                    this.askingfriendslist = result.askedFriendsList;},
-      error => {console.error(error);});
+      error => {this.errormessage = error;});
   }
 
   updateFriendSugg()
@@ -35,12 +40,15 @@ export class FriendsListComponent implements OnInit {
     {
       this.userService.SearchFriend(this.friendsearchbarvalue).subscribe(
         result =>  { this.friendsuggestions = result; },
-        error => {console.error(error);});
+        error => {this.errormessage = error;});
     }
   }
 
   getSearchFriendDetails()
   {
+    this.successmessage = null;
+    this.successtitle = null;
+    this.errormessage = null;
     this.friendwithdetails = null;
     this.userService.GetUser(this.friendsearchbarvalue).subscribe({
       next: (r) => {
@@ -49,7 +57,7 @@ export class FriendsListComponent implements OnInit {
           this.friendwithdetails = {id: r.id, userName: r.userName}
         }
                   },
-     error : (e) => console.error(e)});
+     error : (e) => this.errormessage = e});
 
      //Reset search bar
      this.friendsuggestions = [];
@@ -59,14 +67,18 @@ export class FriendsListComponent implements OnInit {
 
   sendFR()
   {
+    this.errormessage = null;
     this.userService.SendFriendRequest(this.friendwithdetails).subscribe(
-      error => {console.error(error);});
+      r => {this.successtitle = "Demande envoyée !"; this.successmessage = "Demande d'ami envoyée avec succès à " + this.friendwithdetails.userName + " !"},
+      error => {this.errormessage = error;});
   }
 
   addFriend(friend: Friend)
   {
+    this.errormessage = null;
     this.userService.AddFriend(friend).subscribe(
-      error => {console.error(error);});
+      r => {this.successtitle = "Nouvel ami !"; this.successmessage = friend.userName + " et toi êtes à présent amis !"},
+      error => {this.errormessage = error;});
 
     this.friendslist.push(friend);
 
@@ -75,8 +87,10 @@ export class FriendsListComponent implements OnInit {
 
   deleteFR(friend: Friend)
   {
+    this.errormessage = null;
     this.userService.DeleteFriendRequest(friend).subscribe(
-      error => {console.error(error);});
+      r => {},
+      error => {this.errormessage = error;});
 
     const index = this.askingfriendslist.indexOf(friend, 0);
     this.askingfriendslist.splice(index, 1);
@@ -84,8 +98,10 @@ export class FriendsListComponent implements OnInit {
 
   deleteSelectedFriend()
   {
+    this.errormessage = null;
     this.userService.DeleteFriend(this.selectedFriendForDeletion).subscribe(
-      error => {console.error(error);});
+      r => {this.successtitle = "Ami retiré"; this.successmessage = this.selectedFriendForDeletion.userName + " a bien été retiré de la liste d'amis."},
+      error => {this.errormessage = error;});
 
     const index = this.friendslist.indexOf(this.selectedFriendForDeletion, 0);
     this.friendslist.splice(index, 1);

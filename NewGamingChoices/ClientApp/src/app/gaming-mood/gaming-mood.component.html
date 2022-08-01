@@ -4,7 +4,16 @@
 
     <p class="text-white">&Agrave; quels jeux ai-je envie de jouer aujourd'hui ?</p>
 
-
+    <div class="nk-info-box text-danger" *ngIf="errormessage">
+      <div class="nk-info-box-icon">
+        <i class="ion-close-round"></i>
+      </div>
+      <div class="nk-info-box-close nk-info-box-close-btn">
+        <i class="ion-close-round"></i>
+      </div>
+      <h3>Erreur</h3>
+      {{errormessage}}
+    </div>
 
     <form action="#" method="post" class="nk-form nk-form-style-1">
       <div class="input-group">
@@ -64,7 +73,7 @@
 </div>
 
 <!-- Modale recherche -->
-<div class="nk-modal modal fade" id="searchgameModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div *ngIf="(gamewithdetails || wrongsearchbuff)" class="nk-modal modal fade" id="searchgameModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
           <div class="modal-body">
@@ -130,10 +139,12 @@
 
               </div>
 
-              <div *ngIf="!gamewithdetails" class="container">
+              <div *ngIf="!gamewithdetails && wrongsearchbuff" class="container">
 
                     <h4 class="mb-0">I am <span class="text-main-1">Error</span></h4>
                     <div class="nk-gap-1"></div>
+
+                    <div *ngIf="!sgerrormessage">
 
                     <div class="text-white">
                       Désolé, aucun jeu du nom de <span style="font-weight: bold;" class="text-main-1">{{wrongsearchbuff}}</span> n'a été trouvé dans notre base de données...<br /><br />
@@ -150,6 +161,18 @@
                         </div>
                       </div>
                     </div>
+
+                  </div>
+
+                  <div *ngIf="sgerrormessage">
+                    <div class="text-white">
+                      {{sgerrormessage.error}}
+
+                      <div class="nk-gap-2"></div>
+                      <a href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-dark-1 nk-btn-block">OK</a>
+
+                      </div>
+                  </div>
 
               </div>
           </div>

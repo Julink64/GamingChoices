@@ -2,7 +2,27 @@
   <div class="container">
     <h1 class="nk-decorated-h-3"><span>Ma liste d'amis</span></h1>
 
+    <div class="nk-info-box text-danger" *ngIf="errormessage">
+      <div class="nk-info-box-icon">
+        <i class="ion-close-round"></i>
+      </div>
+      <div class="nk-info-box-close nk-info-box-close-btn">
+        <i class="ion-close-round"></i>
+      </div>
+      <h3>Erreur</h3>
+      {{errormessage.error}}
+    </div>
 
+    <div class="nk-info-box text-success" *ngIf="successmessage">
+      <div class="nk-info-box-icon">
+        <i class="ion-checkmark-round"></i>
+      </div>
+      <div class="nk-info-box-close nk-info-box-close-btn">
+        <i class="ion-close-round"></i>
+    </div>
+      <h3>{{successtitle}}</h3>
+      {{successmessage}}
+    </div>
 
     <form action="#" method="post" class="nk-form nk-form-style-1">
       <div class="input-group">
@@ -125,7 +145,15 @@
 
 
                   <div class="nk-gap-1"></div>
+
+                    <div class="row vertical-gap">
+                        <div class="col-md-6">
                           <a (click)="deleteSelectedFriend()" href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-main-1 nk-btn-block"><span class="icon ion-close"></span> Retirer</a>
+                        </div>
+                        <div class="col-md-6">
+                          <a href="#" data-dismiss="modal" class="nk-btn nk-btn-rounded nk-btn-color-dark-1 nk-btn-block">Annuler</a>
+                        </div>
+                    </div>
               </form>
           </div>
       </div>

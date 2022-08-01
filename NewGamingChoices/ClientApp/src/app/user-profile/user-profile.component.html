@@ -2,6 +2,28 @@
   <div class="container">
     <h1 class="nk-decorated-h-3"><span>Mes paramètres</span></h1>
 
+    <div class="nk-info-box text-danger" *ngIf="errormessage">
+      <div class="nk-info-box-icon">
+        <i class="ion-close-round"></i>
+      </div>
+      <div class="nk-info-box-close nk-info-box-close-btn">
+        <i class="ion-close-round"></i>
+      </div>
+      <h3>Erreur</h3>
+      {{errormessage}}
+    </div>
+
+    <div class="nk-info-box text-success" *ngIf="successmessage">
+      <div class="nk-info-box-icon">
+        <i class="ion-checkmark-round"></i>
+      </div>
+      <div class="nk-info-box-close nk-info-box-close-btn">
+        <i class="ion-close-round"></i>
+    </div>
+      <h3>Paramètres à jour</h3>
+      {{successmessage}}
+    </div>
+
   <form name="profileForm" #profileForm="ngForm" #formDir="ngForm">
 
     <div class="row justify-content-around">

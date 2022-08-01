@@ -11,6 +11,9 @@ export class GamingMoodComponent implements OnInit {
 
   gamingmoods: GamingMood[];
 
+  errormessage: any;
+  sgerrormessage: any;
+
   gamesearchbarvalue: string;
   gamesuggestions = [];
 
@@ -26,13 +29,6 @@ export class GamingMoodComponent implements OnInit {
 
   constructor(private gameService: GameService) {
 
-    // this.gamingmoods.push("Minecraft");
-    // this.gamingmoods.push("Jeu avec un nom franchement extrèmement vraiment très long");
-    // this.gamingmoods.push("Super Smash Bros Ultimate");
-    // this.gamingmoods.push("Overwatch");
-    // this.gamingmoods.push("Rocket League");
-    // this.gamingmoods.push("Don't Starve Together");
-
    }
 
   ngOnInit() {
@@ -45,17 +41,22 @@ export class GamingMoodComponent implements OnInit {
     {
       this.gameService.SearchGame(this.gamesearchbarvalue).subscribe(
         result =>  { this.gamesuggestions = result; },
-        error => {console.error(error);});
+        error => {this.errormessage = error;});
+    }
+    else
+    {
+      this.gamesuggestions = [];
     }
   }
 
   getSearchGameDetails()
   {
+    this.sgerrormessage = null;
     this.gamewithdetails = null;
     this.gameService.GetGameDetailsByName(this.gamesearchbarvalue).subscribe({
       next: (r) => { this.gamewithdetails = r;
                   },
-     error : (e) => console.error(e)});
+     error : (e) => this.sgerrormessage = e});
 
      //Reset search bar
      this.gamesuggestions = [];
@@ -65,17 +66,18 @@ export class GamingMoodComponent implements OnInit {
 
   addGamingMood()
   {
-    console.log(this.gamewithdetails);
+    this.errormessage = null;
     this.gameService.AddGamingMood(this.gamewithdetails.id).subscribe(
       result => { this.loadGamingMoods(); },
-      error => {console.error(error);});
+      error => {this.errormessage = error;});
   }
 
   loadGamingMoods()
   {
+    this.errormessage = null;
     this.gameService.GetGamingMoods().subscribe(
       result => {this.gamingmoods = result;},
-      error => {console.error(error);});
+      error => {this.errormessage = error;});
   }
 
   selectGM(gm: GamingMood)
@@ -128,8 +130,10 @@ export class GamingMoodComponent implements OnInit {
 
   updateGM(gm: GamingMood)
   {
+    this.errormessage = null;
     this.gameService.UpdateGamingMood(gm).subscribe(
-      error => {console.error(error);});
+      r => {},
+      error => {this.errormessage = error;});
 
     // this.loadGamingMoods();
   }
@@ -137,8 +141,10 @@ export class GamingMoodComponent implements OnInit {
 
   deleteSelectedGM()
   {
+    this.errormessage = null;
     this.gameService.DeleteGamingMood(this.selectedgm.id).subscribe(
-      error => {console.error(error);});
+      r => {},
+      error => {this.errormessage = error;});
 
     let indextodelete = this.gamingmoods.findIndex(gm => gm.id == this.selectedgm.id);
     this.gamingmoods.splice(indextodelete, 1);

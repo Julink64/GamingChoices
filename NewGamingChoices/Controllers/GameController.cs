@@ -28,6 +28,15 @@ namespace NewGamingChoices.Controllers
             _db = db;
         }
 
+        private List<int> getListofCurrentUserGamesIds()
+        {
+            GameService gameService = new GameService(_db);
+            CustomUserService userService = new CustomUserService(_db);
+            ApplicationUser currentuser = userService.GetCurrentUser(User);
+
+            return currentuser.GamingMoods.Select(gm => gm.Game.ID).ToList();
+        }
+
         [HttpPost("[action]")]
         public IActionResult addNewGame([FromBody] Game game) // Cette méthode concerne l'ajout de jeu manuel (hors Steam)
         {
@@ -40,7 +49,7 @@ namespace NewGamingChoices.Controllers
                 }
                 else
                 {
-                    return Ok("Ce jeu existe déjà dans notre base de données et n'a donc pas été ajouté !");
+                    return BadRequest("Ce jeu existe déjà dans notre base de données et n'a donc pas été ajouté !");
                 }
             }
             catch (Exception e)
@@ -58,6 +67,11 @@ namespace NewGamingChoices.Controllers
                 GameService gameService = new GameService(_db);
                 CustomUserService userService = new CustomUserService(_db);
                 ApplicationUser currentuser = userService.GetCurrentUser(User);
+
+                if(currentuser.GamingMoods.Select(gm => gm.Game.ID).ToList().Contains(gameid))
+                {
+                    return BadRequest("Ce jeu est déjà dans la liste et ne peut donc pas être ajouté à nouveau.");
+                }
 
                 if (gameService.AddGamingMood(gameid, currentuser))
                 {
@@ -152,7 +166,9 @@ namespace NewGamingChoices.Controllers
         {
             try
             {
-                var names = _db.Games.Where(p => p.Name.Contains(term)).Select(p => p.Name).ToList();
+                var possiblegames = _db.Games.Where(p => p.Name.Contains(term));
+                var names = possiblegames.Where(p => !getListofCurrentUserGamesIds().Contains(p.ID)).Select(p => p.Name).ToList();
+
                 return Ok(names);
             }
             catch (Exception e)
@@ -185,6 +201,12 @@ namespace NewGamingChoices.Controllers
             try
             {
                 var game = _db.Games.Include(g => g.PlatformPrices.OrderBy(pp => pp.Platform != "PC")).FirstOrDefault(p => p.Name == gamename);
+
+                if(game != null && getListofCurrentUserGamesIds().Contains(game.ID))
+                {
+                    return BadRequest("Ce jeu est déjà dans la liste et ne peut donc pas être ajouté à nouveau.");
+                }
+
                 return Ok(game);
             }
             catch (Exception e)

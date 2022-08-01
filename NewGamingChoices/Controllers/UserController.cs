@@ -53,7 +53,7 @@ namespace NewGamingChoices.Controllers
             try
             {
                 var cu = getCurrentUser();
-                var names = _db.Users.Where(p => p.UserName.Contains(term)).ToList().Where(p => !p.FriendsList.Any(f => f.Id == cu.Id) && !p.AskedFriendsList.Any(f => f.Id == cu.Id)).Select(p => p.UserName);
+                var names = _db.Users.Where(p => p.UserName.Contains(term)).ToList().Where(p => !p.FriendsList.Any(f => f.Id == cu.Id) && !p.AskedFriendsList.Any(f => f.Id == cu.Id) && p.Id != cu.Id).Select(p => p.UserName);
                 return Ok(names);
             }
             catch(Exception e)
@@ -71,22 +71,29 @@ namespace NewGamingChoices.Controllers
                 var askedfriend = _db.Users.Where(p => p.Id == fd.id).FirstOrDefault();
                 if(askedfriend != null)
                 {
-                    if(!askedfriend.AskedFriendsList.Any(fr => fr.Id == asker.Id)) // Only one request per person
+                    if (askedfriend.Id != asker.Id)
                     {
-                        if (!askedfriend.FriendsList.Any(f => f.Id == asker.Id)) // Already friends
+                        if (!askedfriend.AskedFriendsList.Any(fr => fr.Id == asker.Id)) // Only one request per person
                         {
-                            List<Friend> askedfriendlist = askedfriend.AskedFriendsList;
-                            askedfriendlist.Add(new Friend(asker.Id, asker.UserName));
-                            askedfriend.UpdateAskedFriendsList(askedfriendlist);
+                            if (!askedfriend.FriendsList.Any(f => f.Id == asker.Id)) // Already friends
+                            {
+                                List<Friend> askedfriendlist = askedfriend.AskedFriendsList;
+                                askedfriendlist.Add(new Friend(asker.Id, asker.UserName));
+                                askedfriend.UpdateAskedFriendsList(askedfriendlist);
+                            }
+                            else
+                            {
+                                return BadRequest("Vous êtes déjà amis !");
+                            }
                         }
                         else
                         {
-                            return BadRequest("Vous êtes déjà amis !");
+                            return BadRequest("Une demande d'ami a déjà été envoyée à cet utilisateur, c'est maintenant à lui de la valider ou de la refuser.");
                         }
                     }
                     else
                     {
-                        return BadRequest("Une demande d'ami a déjà été envoyée à cet utilisateur, c'est maintenant à lui de la valider ou de la refuser.");
+                        return BadRequest("C'est important d'être ami avec soi-même, mais ici ça n'est pas utile !");
                     }
                 }
 
